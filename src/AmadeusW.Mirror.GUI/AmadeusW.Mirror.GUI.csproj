@@ -104,6 +104,7 @@
       <DependentUpon>ClockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Clock\ClockViewModel.cs" />
+    <Compile Include="Controllers\TimerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
