@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseModel.cs" />
     <Compile Include="Clock\ClockModel.cs" />
     <Compile Include="Clock\ClockView.xaml.cs">
       <DependentUpon>ClockView.xaml</DependentUpon>
