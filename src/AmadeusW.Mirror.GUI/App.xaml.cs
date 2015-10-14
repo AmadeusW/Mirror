@@ -1,4 +1,5 @@
 ﻿using AmadeusW.Mirror.GUI.Clock;
+using AmadeusW.Mirror.GUI.Controllers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,6 +53,7 @@ namespace AmadeusW.Mirror.GUI
 #endif
             var clockModel = new ClockModel();
             clockModel.Update();
+            TimerController.RegisterModel(clockModel);
             (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
 
             Frame rootFrame = Window.Current.Content as Frame;
