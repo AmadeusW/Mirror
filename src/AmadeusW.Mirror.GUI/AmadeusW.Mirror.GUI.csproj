@@ -107,6 +107,7 @@
     <Compile Include="Clock\ClockViewModel.cs" />
     <Compile Include="Controllers\TimerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyChangedBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
