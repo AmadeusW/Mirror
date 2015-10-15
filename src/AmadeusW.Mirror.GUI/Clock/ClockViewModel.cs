@@ -30,6 +30,15 @@ namespace AmadeusW.Mirror.GUI.Clock
         {
             this.model = model;
             updateTime();
+            model.PropertyChanged += ModelPropertyChanged;
+        }
+
+        private void ModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(model.CurrentTime))
+            {
+                updateTime();
+            }
         }
 
         private void updateTime()
