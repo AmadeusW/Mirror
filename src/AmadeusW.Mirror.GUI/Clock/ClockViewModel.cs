@@ -25,6 +25,22 @@ namespace AmadeusW.Mirror.GUI.Clock
                 }
             }
         }
+        private string currentDate;
+        public string CurrentDate
+        {
+            get
+            {
+                return currentDate;
+            }
+            set
+            {
+                if (currentDate != value)
+                {
+                    currentDate = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         internal void Initialize(ClockModel model)
         {
@@ -44,6 +60,7 @@ namespace AmadeusW.Mirror.GUI.Clock
         private void updateTime()
         {
             CurrentTime = model.CurrentTime.ToString("h:mm");
+            CurrentDate = model.CurrentTime.ToString("MMMM d");
         }
     }
 }

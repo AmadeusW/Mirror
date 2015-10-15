@@ -9,12 +9,15 @@
     DataContext="{StaticResource clockViewModel}">  
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel VerticalAlignment="Center">
         <TextBlock
-            x:Name="textBlock"
             HorizontalAlignment="Center" 
-            TextWrapping="Wrap"
             Text="{Binding Path=CurrentTime, FallbackValue=Time will be shown here}" 
-            VerticalAlignment="Center"/>
-
+            />
+        <TextBlock
+            HorizontalAlignment="Center" 
+            Text="{Binding Path=CurrentDate, FallbackValue=Date will be shown here}" 
+            />
+        </StackPanel>
     </Grid>
 </Page>
