@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="AmadeusW.Mirror.GUI.Weather.WeatherThisWeekView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AmadeusW.Mirror.GUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{StaticResource weatherThisWeekViewModel}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="299*"/>
+            <RowDefinition Height="285*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=Temperature}" VerticalAlignment="Top"/>
+        <StackPanel Grid.Column="1" Margin="3,0,2,219" HorizontalAlignment="Stretch" Width="100">
+            <TextBlock TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
+        </StackPanel>
+        <ListView x:Name="listView" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Height="100" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top"
+            ItemsSource="{Binding Path=Forecast}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <!-- Using instances of DailyForecastViewModel as binding source -->
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Date}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=TemperatureHigh}" />
+                            <TextBlock Text="{Binding Path=TemperatureLow}" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding Path=Conditions}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+        <TextBlock HorizontalAlignment="Left" Text="{Binding Path=LastUpdated, FallbackValue=LastUpdated}" VerticalAlignment="Top" Grid.Row="2"/>
+    </Grid>
+</Page>
