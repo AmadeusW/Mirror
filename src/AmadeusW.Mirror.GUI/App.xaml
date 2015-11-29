@@ -4,8 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AmadeusW.Mirror.GUI"
     xmlns:clock="using:AmadeusW.Mirror.GUI.Clock"
+    xmlns:weather="using:AmadeusW.Mirror.GUI.Weather"
     RequestedTheme="Light">
     <Application.Resources>
         <clock:ClockViewModel x:Key="clockViewModel"/>
+        <weather:WeatherThisWeekViewModel x:Key="weatherThisWeekViewModel"/>
+        <weather:WeatherTodayViewModel x:Key="weatherTodayViewModel"/>
     </Application.Resources>
 </Application>
