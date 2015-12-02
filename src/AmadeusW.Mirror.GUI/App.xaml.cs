@@ -1,5 +1,6 @@
 ﻿using AmadeusW.Mirror.GUI.Clock;
 using AmadeusW.Mirror.GUI.Controllers;
+using AmadeusW.Mirror.GUI.Weather;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,6 +39,19 @@ namespace AmadeusW.Mirror.GUI
             this.Suspending += OnSuspending;
         }
 
+        private void launchScreenCallback(Type screenToLaunch)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(screenToLaunch, null);
+        }
+
+        private List<Type> availableScreens = new List<Type>()
+            {
+                typeof(ClockView),
+                typeof(WeatherTodayView),
+                typeof(WeatherThisWeekView),
+            };
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -51,10 +66,19 @@ namespace AmadeusW.Mirror.GUI
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            var navigation = new NavigationController(availableScreens, launchScreenCallback);
+            CoreWindow.GetForCurrentThread().KeyDown += navigation.GlobalKeyDown;
+
             var clockModel = new ClockModel();
             clockModel.Update();
             TimerController.RegisterModel(clockModel);
             (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
+
+            var weatherModel = new WeatherModel_fake();
+            weatherModel.Update();
+            TimerController.RegisterModel(weatherModel);
+            (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
+            (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
 
             Frame rootFrame = Window.Current.Content as Frame;
 
