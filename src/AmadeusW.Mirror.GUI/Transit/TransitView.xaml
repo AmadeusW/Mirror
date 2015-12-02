@@ -5,8 +5,8 @@
     xmlns:local="using:AmadeusW.Mirror.GUI.Transit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-
+    mc:Ignorable="d"
+    DataContext="{StaticResource transitViewModel}">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch"
             ItemsSource="{Binding Path=Lines}" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.HorizontalScrollMode="Disabled">
@@ -14,23 +14,23 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <!-- Using instances of TransitLineViewModel as binding source -->
-                    <Grid>
+                    <Grid Height="50" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Path=RouteName}" />
-                        <TextBlock Text="{Binding Path=StopName}" />
+                        <TextBlock Grid.Column="0" Text="{Binding Path=RouteName}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Path=StopName}" />
 
-                        <ListView HorizontalAlignment="Stretch" Margin="10" Height="50"
+                        <ListView Grid.Column="2" HorizontalAlignment="Stretch" Margin="10" Height="50"
             ItemsSource="{Binding Path=Arrivals}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Enabled">
 
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <!-- Using instances of ArrivalViewModel as binding source -->
-                                    <StackPanel>
+                                    <StackPanel Width="100">
                                         <TextBlock Text="{Binding Path=WhenINeedToLeave}" />
                                         <TextBlock Text="{Binding Path=ArrivalTime}" />
                                     </StackPanel>

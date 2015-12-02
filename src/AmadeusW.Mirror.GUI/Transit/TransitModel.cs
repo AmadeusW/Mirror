@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +9,8 @@ namespace AmadeusW.Mirror.GUI.Transit
 {
     class TransitModel : BaseModel
     {
-        private IEnumerable<TransitLine> lines;
-        public IEnumerable<TransitLine> Lines
+        private IList<TransitLine> lines;
+        public IList<TransitLine> Lines
         {
             get
             {

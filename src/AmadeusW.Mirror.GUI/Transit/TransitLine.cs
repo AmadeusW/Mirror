@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace AmadeusW.Mirror.GUI.Transit
 {
     public class TransitLine : PropertyChangedBase
     {
+        public TransitLine()
+        {
+            Arrivals = new ObservableCollection<DateTime>();
+        }
+
         private string routeName;
         public string RouteName
         {
@@ -56,8 +62,8 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
-        private IEnumerable<DateTime> arrivals;
-        public IEnumerable<DateTime> Arrivals
+        private ObservableCollection<DateTime> arrivals;
+        public ObservableCollection<DateTime> Arrivals
         {
             get
             {

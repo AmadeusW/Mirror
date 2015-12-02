@@ -54,5 +54,22 @@ namespace AmadeusW.Mirror.GUI.Transit
                 }
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            var otherLine = obj as TransitLineViewModel;
+            var transitLine = obj as TransitLine;
+            if (otherLine != null)
+            {
+                return this.RouteName == otherLine.RouteName
+                    && this.StopName == otherLine.StopName;
+            }
+            if (transitLine != null)
+            {
+                return this.RouteName == transitLine.RouteName
+                    && this.StopName == transitLine.StopName;
+            }
+            return false;
+        }
     }
 }
