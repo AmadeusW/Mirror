@@ -5,10 +5,12 @@
     xmlns:local="using:AmadeusW.Mirror.GUI"
     xmlns:clock="using:AmadeusW.Mirror.GUI.Clock"
     xmlns:weather="using:AmadeusW.Mirror.GUI.Weather"
+    xmlns:transit="using:AmadeusW.Mirror.GUI.Transit"
     RequestedTheme="Light">
     <Application.Resources>
         <clock:ClockViewModel x:Key="clockViewModel"/>
         <weather:WeatherThisWeekViewModel x:Key="weatherThisWeekViewModel"/>
         <weather:WeatherTodayViewModel x:Key="weatherTodayViewModel"/>
+        <transit:TransitViewModel x:Key="transitViewModel"/>
     </Application.Resources>
 </Application>

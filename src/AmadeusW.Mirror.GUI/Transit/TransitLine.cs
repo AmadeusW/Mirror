@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace AmadeusW.Mirror.GUI.Transit
 {
@@ -56,8 +57,8 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
-        private IEnumerable<DateTime> arrivals;
-        public IEnumerable<DateTime> Arrivals
+        private ObservableCollection<DateTime> arrivals;
+        public ObservableCollection<DateTime> Arrivals
         {
             get
             {
@@ -71,6 +72,13 @@ namespace AmadeusW.Mirror.GUI.Transit
                     NotifyPropertyChanged();
                 }
             }
+        }
+
+        public IEnumerable<DateTime> ArrivalsEnumerable { get; set; }
+
+        public override string ToString()
+        {
+            return $"{RouteName} {StopName}";
         }
     }
 }

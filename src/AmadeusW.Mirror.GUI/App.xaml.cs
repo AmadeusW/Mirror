@@ -1,5 +1,6 @@
 ﻿using AmadeusW.Mirror.GUI.Clock;
 using AmadeusW.Mirror.GUI.Controllers;
+using AmadeusW.Mirror.GUI.Transit;
 using AmadeusW.Mirror.GUI.Weather;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace AmadeusW.Mirror.GUI
                 typeof(ClockView),
                 typeof(WeatherTodayView),
                 typeof(WeatherThisWeekView),
+                typeof(TransitView),
             };
 
         /// <summary>
@@ -79,6 +81,11 @@ namespace AmadeusW.Mirror.GUI
             TimerController.RegisterModel(weatherModel);
             (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
             (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
+
+            var transitModel = new TransitModel_fake();
+            transitModel.Update();
+            TimerController.RegisterModel(transitModel);
+            (Resources["transitViewModel"] as TransitViewModel).Initialize(transitModel);
 
             Frame rootFrame = Window.Current.Content as Frame;
 

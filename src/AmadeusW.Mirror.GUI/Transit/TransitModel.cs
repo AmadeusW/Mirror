@@ -8,8 +8,8 @@ namespace AmadeusW.Mirror.GUI.Transit
 {
     class TransitModel : BaseModel
     {
-        private IEnumerable<TransitLine> lines;
-        public IEnumerable<TransitLine> Lines
+        private IList<TransitLine> lines;
+        public IList<TransitLine> Lines
         {
             get
             {
