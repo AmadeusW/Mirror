@@ -28,7 +28,7 @@ namespace AmadeusW.Mirror.GUI.Transit
 
         public override TimeSpan Interval => TimeSpan.FromMinutes(5);
 
-        public override void Update()
+        public override async Task Update()
         {
             throw new NotImplementedException();
         }

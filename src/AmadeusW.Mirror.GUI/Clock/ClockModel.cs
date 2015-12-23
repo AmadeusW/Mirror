@@ -27,7 +27,7 @@ namespace AmadeusW.Mirror.GUI.Clock
 
         public override TimeSpan Interval => TimeSpan.FromSeconds(1);
 
-        public override void Update()
+        public override async Task Update()
         {
             CurrentTime = DateTime.Now;
         }
