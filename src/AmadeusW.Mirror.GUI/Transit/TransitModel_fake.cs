@@ -44,7 +44,7 @@ namespace AmadeusW.Mirror.GUI.Transit
             };
         }
 
-        public override void Update()
+        public override async Task Update()
         {
             var line = Lines[getRandomInt(this.Lines.Count())]; // required changing Lines to List
             line.Arrivals.Add(DateTime.Now + TimeSpan.FromMinutes(getRandomInt(10)));

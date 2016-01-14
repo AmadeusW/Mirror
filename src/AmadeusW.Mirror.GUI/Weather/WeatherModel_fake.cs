@@ -12,7 +12,7 @@ namespace AmadeusW.Mirror.GUI.Weather
 
         public override TimeSpan Interval => TimeSpan.FromSeconds(10);
 
-        public override void Update()
+        public override async Task Update()
         {
             Sunrise = DateTime.Parse("2015-11-26 07:30:00") + TimeSpan.FromMinutes(random.NextDouble() * 30);
             Sunset = DateTime.Parse("2015-11-26 16:30:00") + TimeSpan.FromMinutes(random.NextDouble() * 30);

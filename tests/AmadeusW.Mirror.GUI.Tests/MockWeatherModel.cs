@@ -16,7 +16,7 @@ namespace AmadeusW.Mirror.GUI.Tests
         public DateTime MockSunrise { get; set; }
         public DateTime MockSunset { get; set; }
 
-        public override void Update()
+        public override async Task Update()
         {
             Sunrise = MockSunrise;
             Sunset = MockSunset;

@@ -11,7 +11,7 @@ namespace AmadeusW.Mirror.GUI.Tests
     {
         internal DateTime MockDateTime { get; set; }
 
-        public override void Update()
+        public override async Task Update()
         {
             CurrentTime = MockDateTime;
         }
