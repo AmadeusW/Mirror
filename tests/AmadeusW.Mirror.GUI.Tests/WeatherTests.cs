@@ -31,7 +31,7 @@ namespace AmadeusW.Mirror.GUI.Tests
             Assert.AreEqual(5, dayVm.Forecast.First().Snowfall);
             Assert.AreEqual(16, dayVm.Forecast.First().Temperature);
 
-            Assert.AreEqual("Rain starts at 1pm", dayVm.RainForecast);
+            Assert.AreEqual("Rain starts at 1 pm", dayVm.RainForecast);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace AmadeusW.Mirror.GUI.Tests
             Assert.AreEqual(0, dayVm.Forecast.First().Snowfall);
             Assert.AreEqual(26, dayVm.Forecast.First().Temperature);
 
-            Assert.AreEqual("Rain ends at 1pm", dayVm.RainForecast);
+            Assert.AreEqual("Rain ends at 1 pm", dayVm.RainForecast);
         }
 
         [TestMethod]
