@@ -71,6 +71,8 @@ namespace AmadeusW.Mirror.GUI
             var navigation = new NavigationController(availableScreens, launchScreenCallback);
             CoreWindow.GetForCurrentThread().KeyDown += navigation.GlobalKeyDown;
 
+            await SettingsController.LoadSettings();
+
             var clockModel = new ClockModel();
             await clockModel.Update();
             TimerController.RegisterModel(clockModel);
