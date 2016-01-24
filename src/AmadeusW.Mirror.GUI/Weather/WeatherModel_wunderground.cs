@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using AmadeusW.Mirror.GUI.Controllers;
 
 namespace AmadeusW.Mirror.GUI.Weather
 {
@@ -32,7 +33,8 @@ namespace AmadeusW.Mirror.GUI.Weather
 
         private async Task getWeatherData()
         {
-            var requestHourly = WebRequest.Create("http://api.wunderground.com/api/9539133219291752/hourly/q/Canada/Vancouver.json");
+            dynamic apiToken = SettingsController.Settings.WundergroundApi.ToString();
+            var requestHourly = WebRequest.Create($"http://api.wunderground.com/api/{apiToken}/hourly/q/Canada/Vancouver.json");
             using (var response = await requestHourly.GetResponseAsync())
             {
                 using (var reader = new StreamReader(response.GetResponseStream()))
@@ -40,7 +42,7 @@ namespace AmadeusW.Mirror.GUI.Weather
                     _rawResponseHourly = await reader.ReadToEndAsync();
                 }
             }
-            var request10Day = WebRequest.Create("http://api.wunderground.com/api/9539133219291752/forecast10day/q/Canada/Vancouver.json");
+            var request10Day = WebRequest.Create($"http://api.wunderground.com/api/{apiToken}/forecast10day/q/Canada/Vancouver.json");
             using (var response = await request10Day.GetResponseAsync())
             {
                 using (var reader = new StreamReader(response.GetResponseStream()))
