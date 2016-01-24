@@ -33,7 +33,7 @@ namespace AmadeusW.Mirror.GUI.Weather
 
         private async Task getWeatherData()
         {
-            dynamic apiToken = SettingsController.Settings.WundergroundApi;
+            dynamic apiToken = SettingsController.Settings.WundergroundApi.ToString();
             var requestHourly = WebRequest.Create($"http://api.wunderground.com/api/{apiToken}/hourly/q/Canada/Vancouver.json");
             using (var response = await requestHourly.GetResponseAsync())
             {
