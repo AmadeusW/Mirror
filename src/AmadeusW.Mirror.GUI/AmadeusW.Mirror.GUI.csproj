@@ -94,6 +94,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <PRIResource Include="PrivateConfiguration.resw" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
