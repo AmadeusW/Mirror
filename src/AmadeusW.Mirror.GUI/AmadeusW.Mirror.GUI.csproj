@@ -113,14 +113,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedBase.cs" />
     <Compile Include="Transit\ArrivalViewModel.cs" />
+    <Compile Include="Transit\IPeriodicallyUpdate.cs" />
     <Compile Include="Transit\TransitLine.cs" />
     <Compile Include="Transit\TransitLineViewModel.cs" />
     <Compile Include="Transit\TransitModel.cs" />
     <Compile Include="Transit\TransitModel_fake.cs" />
+    <Compile Include="Transit\TransitModel_translink.cs" />
     <Compile Include="Transit\TransitView.xaml.cs">
       <DependentUpon>TransitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Transit\TransitViewModel.cs" />
+    <Compile Include="Transit\TransitLine_translink.cs" />
     <Compile Include="Weather\DailyForecastViewModel.cs" />
     <Compile Include="Weather\Helpers.cs" />
     <Compile Include="Weather\HourlyForecastViewModel.cs" />

@@ -84,11 +84,11 @@ namespace AmadeusW.Mirror.GUI
             (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
             (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
 
-            var transitModel = new TransitModel_fake();
+            var transitModel = new TransitModel_translink();
             await transitModel.Update();
             TimerController.RegisterModel(transitModel);
             (Resources["transitViewModel"] as TransitViewModel).Initialize(transitModel);
-            
+            TimerController.RegisterViewModel((Resources["transitViewModel"] as TransitViewModel));
 
             Frame rootFrame = Window.Current.Content as Frame;
 

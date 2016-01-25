@@ -2,7 +2,7 @@
 {
     public class ArrivalViewModel
     {
-        public string WhenINeedToLeave { get; set; }
+        public int WhenINeedToLeave { get; set; }
         public string ArrivalTime { get; set; }
     }
 }
