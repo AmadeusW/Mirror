@@ -108,7 +108,7 @@ namespace AmadeusW.Mirror.GUI.Transit
             {
                 if (!lineToUpdate.Arrivals.Any(a => a.ArrivalTime == arrivalInModel))
                 {
-                    lineToUpdate.Arrivals.Add(getNewArrival(arrivalInModel, updatedLine.WalkTime);
+                    lineToUpdate.Arrivals.Add(getNewArrival(arrivalInModel, updatedLine.WalkTime));
                 }
             }
         }
@@ -125,14 +125,14 @@ namespace AmadeusW.Mirror.GUI.Transit
             var test3 = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
             return new ArrivalViewModel()
             {
-                ArrivalTime = arrivalTime.ToString("h:mm"),
+                ArrivalTime = arrivalTime,
                 WhenINeedToLeave = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes),
             };
         }
 
         private void updateArrival(ArrivalViewModel arrival, DateTime arrivalTime, TimeSpan walkTime)
         {
-            arrival.ArrivalTime = arrivalTime.ToString("h:mm");
+            arrival.ArrivalTime = arrivalTime;
             arrival.WhenINeedToLeave = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
         }
 
@@ -182,7 +182,7 @@ namespace AmadeusW.Mirror.GUI.Transit
                 var lineInViewModel = Lines.Single(l => l.Equals(line));
                 foreach (var arrival in line.Arrivals)
                 {
-                    var arrivalInViewModel = lineInViewModel.Arrivals.FirstOrDefault(l => l.ArrivalTime == arrival.ToString("h:mm"));
+                    var arrivalInViewModel = lineInViewModel.Arrivals.FirstOrDefault(l => l.ArrivalTime == arrival);
                     if (arrivalInViewModel != null)
                     {
                         updateArrival(arrivalInViewModel, arrival, line.WalkTime);

@@ -31,7 +31,7 @@
                                 <DataTemplate>
                                     <!-- Using instances of ArrivalViewModel as binding source -->
                                     <StackPanel Width="100">
-                                        <TextBlock Text="{Binding Path=WhenINeedToLeave, StringFormat={0} min}" />
+                                        <TextBlock Text="{Binding Path=WhenINeedToLeave}" />
                                         <TextBlock Text="{Binding Path=ArrivalTime}" />
                                     </StackPanel>
                                 </DataTemplate>
