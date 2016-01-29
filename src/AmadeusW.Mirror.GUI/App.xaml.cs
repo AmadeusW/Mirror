@@ -46,13 +46,7 @@ namespace AmadeusW.Mirror.GUI
             rootFrame.Navigate(screenToLaunch, null);
         }
 
-        private List<Type> availableScreens = new List<Type>()
-            {
-                typeof(ClockView),
-                typeof(WeatherTodayView),
-                typeof(WeatherThisWeekView),
-                typeof(TransitView),
-            };
+        private List<Type> availableScreens = new List<Type>();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -68,27 +62,55 @@ namespace AmadeusW.Mirror.GUI
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-            var navigation = new NavigationController(availableScreens, launchScreenCallback);
+            var navigation = new NavigationController(launchScreenCallback);
             CoreWindow.GetForCurrentThread().KeyDown += navigation.GlobalKeyDown;
 
             await SettingsController.LoadSettings();
 
-            var clockModel = new ClockModel();
-            await clockModel.Update();
-            TimerController.RegisterModel(clockModel);
-            (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
+            try
+            {
+                var clockModel = new ClockModel();
+                await clockModel.Update();
+                (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
+                TimerController.RegisterModel(clockModel);
+                navigation.RegisterView(typeof(ClockView));
+            }
+            catch (Exception ex)
+            {
+                // TODO: appInsights
+                System.Diagnostics.Debugger.Break();
+            }
 
-            var weatherModel = new WeatherModel_wunderground();
-            await weatherModel.Update();
-            TimerController.RegisterModel(weatherModel);
-            (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
-            (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
+            try
+            { 
+                var weatherModel = new WeatherModel_wunderground();
+                await weatherModel.Update();
+                TimerController.RegisterModel(weatherModel);
+                (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
+                (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
+                navigation.RegisterView(typeof(WeatherThisWeekView));
+                navigation.RegisterView(typeof(WeatherTodayViewModel));
+            }
+            catch (Exception ex)
+            {
+                // TODO: appInsights
+                System.Diagnostics.Debugger.Break();
+            }
 
-            var transitModel = new TransitModel_translink();
-            await transitModel.Update();
-            TimerController.RegisterModel(transitModel);
-            (Resources["transitViewModel"] as TransitViewModel).Initialize(transitModel);
-            TimerController.RegisterViewModel((Resources["transitViewModel"] as TransitViewModel));
+            try
+            { 
+                var transitModel = new TransitModel_translink();
+                await transitModel.Update();
+                TimerController.RegisterModel(transitModel);
+                (Resources["transitViewModel"] as TransitViewModel).Initialize(transitModel);
+                TimerController.RegisterViewModel((Resources["transitViewModel"] as TransitViewModel));
+                navigation.RegisterView(typeof(TransitView));
+            }
+            catch (Exception ex)
+            {
+                // TODO: appInsights
+                System.Diagnostics.Debugger.Break();
+            }
 
             Frame rootFrame = Window.Current.Content as Frame;
 
