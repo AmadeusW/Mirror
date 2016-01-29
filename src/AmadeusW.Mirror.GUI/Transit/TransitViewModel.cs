@@ -90,9 +90,10 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
-        private void updateLine(TransitLine updatedLine)
+        private void updateLine(TransitLine updatedLine, TransitLineViewModel lineToUpdate = null)
         {
-            var lineToUpdate = Lines.Single(line => line.Equals(updatedLine));
+            if (lineToUpdate == null)
+                lineToUpdate = Lines.Single(line => line.Equals(updatedLine));
 
             // Remove arrivals that are not there in the model
             // .ToList() makes a copy of the collection to iterate over
@@ -130,10 +131,9 @@ namespace AmadeusW.Mirror.GUI.Transit
             };
         }
 
-        private void updateArrival(ArrivalViewModel arrival, DateTime arrivalTime, TimeSpan walkTime)
+        private void updateArrival(ArrivalViewModel arrival, TimeSpan walkTime)
         {
-            arrival.ArrivalTime = arrivalTime;
-            arrival.WhenINeedToLeave = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
+            arrival.WhenINeedToLeave = (int)((arrival.ArrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
         }
 
         /// <summary>
@@ -145,21 +145,14 @@ namespace AmadeusW.Mirror.GUI.Transit
             var newLines = new ObservableCollection<TransitLineViewModel>();
             foreach (var line in model.Lines)
             {
-                var allArrivals = new ObservableCollection<ArrivalViewModel>();
-                foreach (var arrival in line.Arrivals)
-                {
-                    var newArrival = getNewArrival(arrival, line.WalkTime);
-                    if (newArrival.WhenINeedToLeave >= 0)
-                    {
-                        allArrivals.Add(newArrival);
-                    }
-                }
-                newLines.Add(new TransitLineViewModel()
+                var newLineViewModel = new TransitLineViewModel()
                 {
                     RouteName = line.RouteName,
                     StopName = line.StopName,
-                    Arrivals = allArrivals,
-                });
+                    Arrivals = new ObservableCollection<ArrivalViewModel>(),
+                };
+                updateLine(line, newLineViewModel);
+                newLines.Add(newLineViewModel);
             }
             Lines = newLines;
             updateTimestamp();
@@ -185,10 +178,10 @@ namespace AmadeusW.Mirror.GUI.Transit
                     var arrivalInViewModel = lineInViewModel.Arrivals.FirstOrDefault(l => l.ArrivalTime == arrival);
                     if (arrivalInViewModel != null)
                     {
-                        updateArrival(arrivalInViewModel, arrival, line.WalkTime);
-                        if (arrivalInViewModel.WhenINeedToLeave < 0)
+                        updateArrival(arrivalInViewModel, line.WalkTime);
+                        // Remove obsolete information
+                        if (arrivalInViewModel.WhenINeedToLeave < -3)
                         {
-                            // Remove obsolete information
                             lineInViewModel.Arrivals.Remove(arrivalInViewModel);
                         }
                     }
