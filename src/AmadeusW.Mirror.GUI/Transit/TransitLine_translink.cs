@@ -20,23 +20,26 @@ namespace AmadeusW.Mirror.GUI.Transit
             StopName = stopName;
             RouteName = routeNumber;
             WalkTime = TimeSpan.FromMinutes(walkTime);
-            Arrivals = new ObservableCollection<DateTime>();
         }
 
         internal void UpdateWithRawData(string data)
         {
             try
             {
+                var newArrivals = new List<DateTime>();
                 var array = JArray.Parse(data);
                 var schedule = array.First["Schedules"];
 
-                Arrivals.Clear();
                 foreach (var element in schedule)
                 {
+                    if (element["CancelledTrip"].ToString().Equals("true", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
                     var rawTime = element["ExpectedLeaveTime"].ToString();
                     var time = DateTime.Parse(rawTime);
-                    Arrivals.Add(time);
+                    newArrivals.Add(time);
                 }
+                Arrivals = newArrivals;
             }
             catch (Exception ex)
             {

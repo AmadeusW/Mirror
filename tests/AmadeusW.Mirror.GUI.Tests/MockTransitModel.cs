@@ -43,7 +43,7 @@ namespace AmadeusW.Mirror.GUI.Tests
 
         public void AddArrival(int minutesAway)
         {
-            Lines.First().Arrivals.Add(DateTime.Now + TimeSpan.FromMinutes(minutesAway));
+            (Lines.First().Arrivals as List<DateTime>).Add(DateTime.Now + TimeSpan.FromMinutes(minutesAway));
         }
     }
 }

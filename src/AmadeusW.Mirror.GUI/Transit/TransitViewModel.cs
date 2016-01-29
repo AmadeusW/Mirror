@@ -69,54 +69,48 @@ namespace AmadeusW.Mirror.GUI.Transit
             model.PropertyChanged += ModelPropertyChanged;
             model.Lines.All(line =>
             {
-                line.Arrivals.CollectionChanged += (s, e) => Arrivals_CollectionChanged(s, e, line);
+                line.PropertyChanged += ModelLinePropertyChanged;
                 return true;
             });
         }
 
-        private void Arrivals_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e, TransitLine line)
-        {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
-            {
-                resetLine(line);
-            }
-            else if (e.NewItems != null)
-            {
-                updateLine(line, e.NewItems);
-            }
-            else
-            {
-                // We don't know how to handle this.
-                System.Diagnostics.Debugger.Break();
-            }
-        }
-
         private void ModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(model.Lines))
-            {
-                updateLines();
-            }
-            else
+            if (e.PropertyName == nameof(TransitModel.Lines))
             {
                 updateLines();
             }
         }
 
-        private void updateLine(TransitLine updatedLine, System.Collections.IList newArrivals)
+        private void ModelLinePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TransitLine.Arrivals))
+            {
+                updateLine(sender as TransitLine);
+            }
+        }
+
+        private void updateLine(TransitLine updatedLine)
         {
             var lineToUpdate = Lines.Single(line => line.Equals(updatedLine));
-            foreach (var newArrival in newArrivals)
-            {
-                var arrival = DateTime.Parse(newArrival.ToString());
-                lineToUpdate.Arrivals.Add(getNewArrival(arrival, updatedLine.WalkTime));
-            }
-        }
 
-        private void resetLine(TransitLine targetLine)
-        {
-            var lineToReset = Lines.Single(line => line.Equals(targetLine));
-            lineToReset.Arrivals.Clear();
+            // Remove arrivals that are not there in the model
+            // .ToList() makes a copy of the collection to iterate over
+            foreach (var existingArrival in lineToUpdate.Arrivals.ToList())
+            {
+                if (!updatedLine.Arrivals.Contains(existingArrival.ArrivalTime))
+                {
+                    lineToUpdate.Arrivals.Remove(existingArrival);
+                }
+            }
+            // Add arrivals that are not there in the viewmodel
+            foreach (var arrivalInModel in updatedLine.Arrivals)
+            {
+                if (!lineToUpdate.Arrivals.Any(a => a.ArrivalTime == arrivalInModel))
+                {
+                    lineToUpdate.Arrivals.Add(getNewArrival(arrivalInModel, updatedLine.WalkTime);
+                }
+            }
         }
 
         private ArrivalViewModel getNewArrival(DateTime arrivalTime, TimeSpan walkTime)

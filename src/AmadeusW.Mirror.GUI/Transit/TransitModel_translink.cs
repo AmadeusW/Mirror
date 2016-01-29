@@ -48,7 +48,7 @@ namespace AmadeusW.Mirror.GUI.Transit
             {
                 _apiKey = SettingsController.Settings.TranslinkApi.ToString();
                 dynamic routes = SettingsController.Settings.TransitRoutes;
-                var transitLines = new ObservableCollection<TransitLine>();
+                var transitLines = new List<TransitLine>();
                 foreach (var route in routes)
                 {
                     transitLines.Add(new TransitLine_translink(

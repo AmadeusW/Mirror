@@ -15,7 +15,7 @@ namespace AmadeusW.Mirror.GUI.Transit
 
         public TransitModel_fake() : base()
         {
-            this.Lines = new ObservableCollection<TransitLine>()
+            this.Lines = new List<TransitLine>()
             {
                 new TransitLine
                 {
@@ -47,7 +47,7 @@ namespace AmadeusW.Mirror.GUI.Transit
         public override async Task Update()
         {
             var line = Lines[getRandomInt(this.Lines.Count())]; // required changing Lines to List
-            line.Arrivals.Add(DateTime.Now + TimeSpan.FromMinutes(getRandomInt(10)));
+            (line.Arrivals as List<DateTime>).Add(DateTime.Now + TimeSpan.FromMinutes(getRandomInt(10)));
         }
 
         private int getRandomInt(int maxValue)

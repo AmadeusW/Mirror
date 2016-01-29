@@ -8,7 +8,7 @@ namespace AmadeusW.Mirror.GUI.Transit
     {
         public TransitLine()
         {
-            Arrivals = new ObservableCollection<DateTime>();
+            Arrivals = new List<DateTime>();
         }
 
         private string routeName;
@@ -62,8 +62,8 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
-        private ObservableCollection<DateTime> arrivals;
-        public ObservableCollection<DateTime> Arrivals
+        private IEnumerable<DateTime> arrivals;
+        public IEnumerable<DateTime> Arrivals
         {
             get
             {
