@@ -10,6 +10,7 @@ namespace AmadeusW.Mirror.GUI.Transit
 {
     public class TransitViewModel : PropertyChangedBase, IPeriodicallyUpdate
     {
+        private const int BUS_CUTOFF = -1;
         private bool initialized;
         public bool Initialized
         {
@@ -109,9 +110,17 @@ namespace AmadeusW.Mirror.GUI.Transit
             {
                 if (!lineToUpdate.Arrivals.Any(a => a.ArrivalTime == arrivalInModel))
                 {
-                    lineToUpdate.Arrivals.Add(getNewArrival(arrivalInModel, updatedLine.WalkTime));
+                    var newArrival = getNewArrival(arrivalInModel, updatedLine.WalkTime);
+                    if (newArrival.WhenINeedToLeave < BUS_CUTOFF)
+                    {
+                        continue;
+                    }
+                    var insertionPoint = lineToUpdate.Arrivals.Count(a => a.ArrivalTime < arrivalInModel);
+                    lineToUpdate.Arrivals.Insert(insertionPoint, newArrival);
                 }
             }
+
+            updateTimestamp();
         }
 
         private ArrivalViewModel getNewArrival(DateTime arrivalTime, TimeSpan walkTime)
@@ -180,7 +189,7 @@ namespace AmadeusW.Mirror.GUI.Transit
                     {
                         updateArrival(arrivalInViewModel, line.WalkTime);
                         // Remove obsolete information
-                        if (arrivalInViewModel.WhenINeedToLeave < -3)
+                        if (arrivalInViewModel.WhenINeedToLeave < BUS_CUTOFF)
                         {
                             lineInViewModel.Arrivals.Remove(arrivalInViewModel);
                         }
