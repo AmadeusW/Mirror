@@ -22,8 +22,8 @@ namespace AmadeusW.Mirror.GUI.Transit
             {
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 var request = new HttpRequestMessage(HttpMethod.Get, $"http://api.translink.ca/RTTIAPI/V1/stops/{stopNumber}/estimates?apiKey={_apiKey}&routeNo={routeNumber}");
-                var response = client.SendAsync(request);
-                var message = (await response).Content.ReadAsStringAsync().Result;
+                var response = await client.SendAsync(request);
+                var message = await response.Content.ReadAsStringAsync();
                 return message;
             }
         }
