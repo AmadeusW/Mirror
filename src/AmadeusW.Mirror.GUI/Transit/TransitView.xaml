@@ -5,8 +5,12 @@
     xmlns:local="using:AmadeusW.Mirror.GUI.Transit"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:AmadeusW.Mirror.GUI.Converters"
     mc:Ignorable="d"
     DataContext="{StaticResource transitViewModel}">
+    <Page.Resources>
+        <converters:DateTimeToShortStringConverter x:Key="DateTimeConverter" />
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch"
             ItemsSource="{Binding Path=Lines}" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.HorizontalScrollMode="Disabled">
@@ -14,7 +18,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <!-- Using instances of TransitLineViewModel as binding source -->
-                    <Grid Height="50" HorizontalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="3*"/>
@@ -32,7 +36,7 @@
                                     <!-- Using instances of ArrivalViewModel as binding source -->
                                     <StackPanel Width="100">
                                         <TextBlock Text="{Binding Path=WhenINeedToLeave}" />
-                                        <TextBlock Text="{Binding Path=ArrivalTime}" />
+                                        <TextBlock Text="{Binding Path=ArrivalTime, Converter={StaticResource DateTimeConverter}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
