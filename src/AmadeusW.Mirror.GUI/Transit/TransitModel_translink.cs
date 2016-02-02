@@ -1,5 +1,4 @@
 ﻿using AmadeusW.Mirror.GUI.Controllers;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,19 +26,6 @@ namespace AmadeusW.Mirror.GUI.Transit
                 var message = (await response).Content.ReadAsStringAsync().Result;
                 return message;
             }
-            /*
-            var request = WebRequest.Create($"http://api.translink.ca/RTTIAPI/V1/stops/{stopNumber}/estimates?apiKey={apiKey}&routeNo={routeNumber}");
-            request.ContentType = "application/json";
-            string data = "";
-            using (var response = await request.GetResponseAsync())
-            {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    data = await reader.ReadToEndAsync();
-                }
-            }
-            return data;
-            */
         }
 
         public TransitModel_translink() : base()
