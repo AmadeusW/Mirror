@@ -1,5 +1,4 @@
 ﻿using AmadeusW.Mirror.GUI.Controllers;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,23 +22,10 @@ namespace AmadeusW.Mirror.GUI.Transit
             {
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                 var request = new HttpRequestMessage(HttpMethod.Get, $"http://api.translink.ca/RTTIAPI/V1/stops/{stopNumber}/estimates?apiKey={_apiKey}&routeNo={routeNumber}");
-                var response = client.SendAsync(request);
-                var message = (await response).Content.ReadAsStringAsync().Result;
+                var response = await client.SendAsync(request);
+                var message = await response.Content.ReadAsStringAsync();
                 return message;
             }
-            /*
-            var request = WebRequest.Create($"http://api.translink.ca/RTTIAPI/V1/stops/{stopNumber}/estimates?apiKey={apiKey}&routeNo={routeNumber}");
-            request.ContentType = "application/json";
-            string data = "";
-            using (var response = await request.GetResponseAsync())
-            {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    data = await reader.ReadToEndAsync();
-                }
-            }
-            return data;
-            */
         }
 
         public TransitModel_translink() : base()
@@ -48,7 +34,7 @@ namespace AmadeusW.Mirror.GUI.Transit
             {
                 _apiKey = SettingsController.Settings.TranslinkApi.ToString();
                 dynamic routes = SettingsController.Settings.TransitRoutes;
-                var transitLines = new ObservableCollection<TransitLine>();
+                var transitLines = new List<TransitLine>();
                 foreach (var route in routes)
                 {
                     transitLines.Add(new TransitLine_translink(

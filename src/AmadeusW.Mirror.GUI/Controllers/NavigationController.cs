@@ -14,11 +14,10 @@ namespace AmadeusW.Mirror.GUI.Controllers
         int screenId;
         int maxScreenId;
 
-        public NavigationController(List<Type> availableScreens, Action<Type> launchScreenCallback)
+        public NavigationController(Action<Type> launchScreenCallback)
         {
-            screens = availableScreens;
+            screens = new List<Type>();
             screenId = 0;
-            maxScreenId = screens.Count - 1;
             launchCallback = launchScreenCallback;
         }
 
@@ -52,6 +51,12 @@ namespace AmadeusW.Mirror.GUI.Controllers
                 screenId = 0;
             }
             launchCallback(screens[screenId]);
+        }
+
+        internal void RegisterView(Type viewType)
+        {
+            screens.Add(viewType);
+            maxScreenId = screens.Count - 1;
         }
     }
 }

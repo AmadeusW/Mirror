@@ -10,6 +10,7 @@ namespace AmadeusW.Mirror.GUI.Transit
 {
     public class TransitViewModel : PropertyChangedBase, IPeriodicallyUpdate
     {
+        private const int BUS_CUTOFF = -1;
         private bool initialized;
         public bool Initialized
         {
@@ -69,54 +70,57 @@ namespace AmadeusW.Mirror.GUI.Transit
             model.PropertyChanged += ModelPropertyChanged;
             model.Lines.All(line =>
             {
-                line.Arrivals.CollectionChanged += (s, e) => Arrivals_CollectionChanged(s, e, line);
+                line.PropertyChanged += ModelLinePropertyChanged;
                 return true;
             });
         }
 
-        private void Arrivals_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e, TransitLine line)
-        {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
-            {
-                resetLine(line);
-            }
-            else if (e.NewItems != null)
-            {
-                updateLine(line, e.NewItems);
-            }
-            else
-            {
-                // We don't know how to handle this.
-                System.Diagnostics.Debugger.Break();
-            }
-        }
-
         private void ModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(model.Lines))
-            {
-                updateLines();
-            }
-            else
+            if (e.PropertyName == nameof(TransitModel.Lines))
             {
                 updateLines();
             }
         }
 
-        private void updateLine(TransitLine updatedLine, System.Collections.IList newArrivals)
+        private void ModelLinePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var lineToUpdate = Lines.Single(line => line.Equals(updatedLine));
-            foreach (var newArrival in newArrivals)
+            if (e.PropertyName == nameof(TransitLine.Arrivals))
             {
-                var arrival = DateTime.Parse(newArrival.ToString());
-                lineToUpdate.Arrivals.Add(getNewArrival(arrival, updatedLine.WalkTime));
+                updateLine(sender as TransitLine);
             }
         }
 
-        private void resetLine(TransitLine targetLine)
+        private void updateLine(TransitLine updatedLine, TransitLineViewModel lineToUpdate = null)
         {
-            var lineToReset = Lines.Single(line => line.Equals(targetLine));
-            lineToReset.Arrivals.Clear();
+            if (lineToUpdate == null)
+                lineToUpdate = Lines.Single(line => line.Equals(updatedLine));
+
+            // Remove arrivals that are not there in the model
+            // .ToList() makes a copy of the collection to iterate over
+            foreach (var existingArrival in lineToUpdate.Arrivals.ToList())
+            {
+                if (!updatedLine.Arrivals.Contains(existingArrival.ArrivalTime))
+                {
+                    lineToUpdate.Arrivals.Remove(existingArrival);
+                }
+            }
+            // Add arrivals that are not there in the viewmodel
+            foreach (var arrivalInModel in updatedLine.Arrivals)
+            {
+                if (!lineToUpdate.Arrivals.Any(a => a.ArrivalTime == arrivalInModel))
+                {
+                    var newArrival = getNewArrival(arrivalInModel, updatedLine.WalkTime);
+                    if (newArrival.WhenINeedToLeave < BUS_CUTOFF)
+                    {
+                        continue;
+                    }
+                    var insertionPoint = lineToUpdate.Arrivals.Count(a => a.ArrivalTime < arrivalInModel);
+                    lineToUpdate.Arrivals.Insert(insertionPoint, newArrival);
+                }
+            }
+
+            updateTimestamp();
         }
 
         private ArrivalViewModel getNewArrival(DateTime arrivalTime, TimeSpan walkTime)
@@ -131,15 +135,14 @@ namespace AmadeusW.Mirror.GUI.Transit
             var test3 = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
             return new ArrivalViewModel()
             {
-                ArrivalTime = arrivalTime.ToString("h:mm"),
+                ArrivalTime = arrivalTime,
                 WhenINeedToLeave = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes),
             };
         }
 
-        private void updateArrival(ArrivalViewModel arrival, DateTime arrivalTime, TimeSpan walkTime)
+        private void updateArrival(ArrivalViewModel arrival, TimeSpan walkTime)
         {
-            arrival.ArrivalTime = arrivalTime.ToString("h:mm");
-            arrival.WhenINeedToLeave = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
+            arrival.WhenINeedToLeave = (int)((arrival.ArrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
         }
 
         /// <summary>
@@ -151,21 +154,14 @@ namespace AmadeusW.Mirror.GUI.Transit
             var newLines = new ObservableCollection<TransitLineViewModel>();
             foreach (var line in model.Lines)
             {
-                var allArrivals = new ObservableCollection<ArrivalViewModel>();
-                foreach (var arrival in line.Arrivals)
-                {
-                    var newArrival = getNewArrival(arrival, line.WalkTime);
-                    if (newArrival.WhenINeedToLeave >= 0)
-                    {
-                        allArrivals.Add(newArrival);
-                    }
-                }
-                newLines.Add(new TransitLineViewModel()
+                var newLineViewModel = new TransitLineViewModel()
                 {
                     RouteName = line.RouteName,
                     StopName = line.StopName,
-                    Arrivals = allArrivals,
-                });
+                    Arrivals = new ObservableCollection<ArrivalViewModel>(),
+                };
+                updateLine(line, newLineViewModel);
+                newLines.Add(newLineViewModel);
             }
             Lines = newLines;
             updateTimestamp();
@@ -188,13 +184,13 @@ namespace AmadeusW.Mirror.GUI.Transit
                 var lineInViewModel = Lines.Single(l => l.Equals(line));
                 foreach (var arrival in line.Arrivals)
                 {
-                    var arrivalInViewModel = lineInViewModel.Arrivals.FirstOrDefault(l => l.ArrivalTime == arrival.ToString("h:mm"));
+                    var arrivalInViewModel = lineInViewModel.Arrivals.FirstOrDefault(l => l.ArrivalTime == arrival);
                     if (arrivalInViewModel != null)
                     {
-                        updateArrival(arrivalInViewModel, arrival, line.WalkTime);
-                        if (arrivalInViewModel.WhenINeedToLeave < 0)
+                        updateArrival(arrivalInViewModel, line.WalkTime);
+                        // Remove obsolete information
+                        if (arrivalInViewModel.WhenINeedToLeave < BUS_CUTOFF)
                         {
-                            // Remove obsolete information
                             lineInViewModel.Arrivals.Remove(arrivalInViewModel);
                         }
                     }
