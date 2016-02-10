@@ -24,6 +24,8 @@ namespace AmadeusW.Mirror.GUI.Weather
         public WeatherModel_wunderground() : base()
         {
             _apiToken = SettingsController.Settings.WundergroundApi.ToString();
+            DailyForecast = new List<WeatherDetailsModel>();
+            HourlyForecast = new List<WeatherDetailsModel>();
         }
 
         public override async Task Update()
@@ -60,7 +62,15 @@ namespace AmadeusW.Mirror.GUI.Weather
         private void updateWith10DayData(string response)
         {
             var json = JObject.Parse(response);
-            var allDaily = json["forecast"]["simpleforecast"]["forecastday"].Children();
+            JToken forecastToken;
+            if (!json.TryGetValue("forecast", out forecastToken))
+            {
+                var tc = new Microsoft.ApplicationInsights.TelemetryClient();
+                var properties = new Dictionary<String, string> { { "response", response } };
+                tc.TrackEvent($"Unexpected response in {nameof(updateWith10DayData)}", properties);
+                return;
+            }
+            var allDaily = forecastToken["simpleforecast"]["forecastday"].Children();
             var dailyForecast = new List<WeatherDetailsModel>();
             foreach (var daily in allDaily.Take(10))
             {
@@ -83,7 +93,14 @@ namespace AmadeusW.Mirror.GUI.Weather
         private void updateWithHourlyData(string response)
         {
             var json = JObject.Parse(response);
-            var allHourly = json["hourly_forecast"];
+            JToken allHourly;
+            if (!json.TryGetValue("forecast", out allHourly))
+            {
+                var tc = new Microsoft.ApplicationInsights.TelemetryClient();
+                var properties = new Dictionary<String, string> { { "response", response } };
+                tc.TrackEvent($"Unexpected response in {nameof(updateWithHourlyData)}", properties);
+                return;
+            }
             var hourlyForecast = new List<WeatherDetailsModel>();
             foreach (var hourly in allHourly.Take(24))
             {
