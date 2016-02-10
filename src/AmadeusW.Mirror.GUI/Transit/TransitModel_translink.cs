@@ -33,7 +33,15 @@ namespace AmadeusW.Mirror.GUI.Transit
             try
             {
                 _apiKey = SettingsController.Settings.TranslinkApi.ToString();
+                if (String.IsNullOrEmpty(_apiKey))
+                {
+                    throw new InvalidOperationException("API Key for the transit module is missing.");
+                }
                 dynamic routes = SettingsController.Settings.TransitRoutes;
+                if (routes == null)
+                {
+                    throw new InvalidOperationException("Routes are missing in the transit module.");
+                }
                 var transitLines = new List<TransitLine>();
                 foreach (var route in routes)
                 {
