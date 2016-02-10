@@ -35,6 +35,8 @@ namespace AmadeusW.Mirror.GUI
         {
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
+                Microsoft.ApplicationInsights.WindowsCollectors.PageView |
+                Microsoft.ApplicationInsights.WindowsCollectors.UnhandledException |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -62,6 +64,8 @@ namespace AmadeusW.Mirror.GUI
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            var tc = new Microsoft.ApplicationInsights.TelemetryClient();
+
             var navigation = new NavigationController(launchScreenCallback);
             CoreWindow.GetForCurrentThread().KeyDown += navigation.GlobalKeyDown;
 
@@ -141,6 +145,7 @@ namespace AmadeusW.Mirror.GUI
             }
             // Ensure the current window is active
             Window.Current.Activate();
+            tc.TrackEvent("Smart Mirror has loaded.");
         }
 
         /// <summary>
