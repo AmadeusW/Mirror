@@ -81,7 +81,8 @@ namespace AmadeusW.Mirror.GUI
             }
             catch (Exception ex)
             {
-                // TODO: appInsights
+                var properties = new Dictionary<String, string> { { "Module", "Clock" } };
+                tc.TrackException(ex, properties);
                 System.Diagnostics.Debugger.Break();
             }
 
@@ -97,7 +98,8 @@ namespace AmadeusW.Mirror.GUI
             }
             catch (Exception ex)
             {
-                // TODO: appInsights
+                var properties = new Dictionary<String, string> { { "Module", "Weather" } };
+                tc.TrackException(ex, properties);
                 System.Diagnostics.Debugger.Break();
             }
 
@@ -112,7 +114,8 @@ namespace AmadeusW.Mirror.GUI
             }
             catch (Exception ex)
             {
-                // TODO: appInsights
+                var properties = new Dictionary<String, string> { { "Module", "Transit" } };
+                tc.TrackException(ex, properties);
                 System.Diagnostics.Debugger.Break();
             }
 
