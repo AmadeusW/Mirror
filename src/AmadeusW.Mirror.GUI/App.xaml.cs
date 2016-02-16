@@ -94,7 +94,7 @@ namespace AmadeusW.Mirror.GUI
                 (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
                 (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
                 navigation.RegisterView(typeof(WeatherThisWeekView));
-                navigation.RegisterView(typeof(WeatherTodayViewModel));
+                navigation.RegisterView(typeof(WeatherTodayView));
             }
             catch (Exception ex)
             {
