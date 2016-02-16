@@ -45,7 +45,11 @@ namespace AmadeusW.Mirror.GUI.Weather
 
         internal static string GetRainForecast(WeatherModel model)
         {
-            var currentWeather = model.HourlyForecast.First();
+            var currentWeather = model.HourlyForecast.FirstOrDefault();
+            if (currentWeather == null)
+            {
+                return String.Empty;
+            }
             var futureWeather = model.HourlyForecast.Skip(1);
             var rainsNow = currentWeather.Rainfall > 0;
             if (rainsNow)
