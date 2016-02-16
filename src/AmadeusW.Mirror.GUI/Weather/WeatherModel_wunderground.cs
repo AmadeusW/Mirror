@@ -94,7 +94,7 @@ namespace AmadeusW.Mirror.GUI.Weather
         {
             var json = JObject.Parse(response);
             JToken allHourly;
-            if (!json.TryGetValue("forecast", out allHourly))
+            if (!json.TryGetValue("hourly_forecast", out allHourly))
             {
                 var tc = new Microsoft.ApplicationInsights.TelemetryClient();
                 var properties = new Dictionary<String, string> { { "response", response } };
