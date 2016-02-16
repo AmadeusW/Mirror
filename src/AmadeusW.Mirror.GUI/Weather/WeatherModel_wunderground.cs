@@ -37,6 +37,7 @@ namespace AmadeusW.Mirror.GUI.Weather
             await getWeatherData();
             updateWithHourlyData(_rawResponseHourly);
             updateWith10DayData(_rawResponse10Day);
+            Ready = true;
         }
 
         private async Task getWeatherData()

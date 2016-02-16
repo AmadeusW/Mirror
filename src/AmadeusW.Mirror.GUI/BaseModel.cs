@@ -8,6 +8,7 @@ namespace AmadeusW.Mirror.GUI
 {
     abstract class BaseModel : PropertyChangedBase
     {
+        public bool Ready { get; protected set; }
         public abstract TimeSpan Interval { get; }
 
         public abstract Task Update();

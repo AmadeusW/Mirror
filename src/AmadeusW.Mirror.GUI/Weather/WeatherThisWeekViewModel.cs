@@ -96,23 +96,26 @@ namespace AmadeusW.Mirror.GUI.Weather
         internal void Initialize(WeatherModel model)
         {
             this.model = model;
-            updateTimestamp();
-            updateDailyForecast();
-            updateCurrentWeather();
             model.PropertyChanged += ModelPropertyChanged;
+            if (model.Ready)
+            {
+                updateDailyForecast();
+                updateCurrentWeather();
+                updateTimestamp();
+            }
         }
 
         private void ModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(model.DailyForecast))
             {
-                updateTimestamp();
                 updateDailyForecast();
+                updateTimestamp();
             }
             else if (e.PropertyName == nameof(model.HourlyForecast))
             {
-                updateTimestamp();
                 updateCurrentWeather();
+                updateTimestamp();
             }
         }
 
