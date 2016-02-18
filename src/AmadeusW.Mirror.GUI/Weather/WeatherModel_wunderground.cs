@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using AmadeusW.Mirror.GUI.Controllers;
+using System.Net.Http;
 
 namespace AmadeusW.Mirror.GUI.Weather
 {
@@ -23,7 +24,10 @@ namespace AmadeusW.Mirror.GUI.Weather
 
         public WeatherModel_wunderground() : base()
         {
-            _apiToken = SettingsController.Settings.WundergroundApi.ToString();
+            if (SettingsController.Settings != null)
+            {
+                _apiToken = SettingsController.Settings.WundergroundApi.ToString();
+            }
             DailyForecast = new List<WeatherDetailsModel>();
             HourlyForecast = new List<WeatherDetailsModel>();
         }
@@ -42,21 +46,17 @@ namespace AmadeusW.Mirror.GUI.Weather
 
         private async Task getWeatherData()
         {
-            var requestHourly = WebRequest.Create($"http://api.wunderground.com/api/{_apiToken}/hourly/q/Canada/Vancouver.json");
-            using (var response = await requestHourly.GetResponseAsync())
+            using (var client = new HttpClient())
             {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    _rawResponseHourly = await reader.ReadToEndAsync();
-                }
-            }
-            var request10Day = WebRequest.Create($"http://api.wunderground.com/api/{_apiToken}/forecast10day/q/Canada/Vancouver.json");
-            using (var response = await request10Day.GetResponseAsync())
-            {
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    _rawResponse10Day = await reader.ReadToEndAsync();
-                }
+                var requestHourly = new HttpRequestMessage(HttpMethod.Get, $"http://api.wunderground.com/api/{_apiToken}/hourly/q/Canada/Vancouver.json");
+                var taskHourly = client.SendAsync(requestHourly);
+                
+                var request10Day = new HttpRequestMessage(HttpMethod.Get, $"http://api.wunderground.com/api/{_apiToken}/forecast10day/q/Canada/Vancouver.json");
+                var task10Day = client.SendAsync(request10Day);
+
+
+                _rawResponseHourly = await (await taskHourly).Content.ReadAsStringAsync();
+                _rawResponse10Day = await (await task10Day).Content.ReadAsStringAsync();
             }
         }
 
