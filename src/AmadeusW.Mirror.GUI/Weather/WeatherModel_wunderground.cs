@@ -18,6 +18,7 @@ namespace AmadeusW.Mirror.GUI.Weather
     {
         private string _rawResponse10Day;
         private string _rawResponseHourly;
+        private string _rawResponseAstronomy;
         private string _apiToken;
 
         public override TimeSpan Interval => TimeSpan.FromMinutes(15);
@@ -41,6 +42,7 @@ namespace AmadeusW.Mirror.GUI.Weather
             await getWeatherData();
             updateWithHourlyData(_rawResponseHourly);
             updateWith10DayData(_rawResponse10Day);
+            updateAstronomy(_rawResponseAstronomy);
             Ready = true;
         }
 
@@ -54,9 +56,12 @@ namespace AmadeusW.Mirror.GUI.Weather
                 var request10Day = new HttpRequestMessage(HttpMethod.Get, $"http://api.wunderground.com/api/{_apiToken}/forecast10day/q/Canada/Vancouver.json");
                 var task10Day = client.SendAsync(request10Day);
 
+                var requestAstronomy = new HttpRequestMessage(HttpMethod.Get, $"http://api.wunderground.com/api/{_apiToken}/astronomy/q/Canada/Vancouver.json");
+                var taskAstronomy = client.SendAsync(requestAstronomy);
 
                 _rawResponseHourly = await (await taskHourly).Content.ReadAsStringAsync();
                 _rawResponse10Day = await (await task10Day).Content.ReadAsStringAsync();
+                _rawResponseAstronomy = await (await taskAstronomy).Content.ReadAsStringAsync();
             }
         }
 
@@ -118,6 +123,24 @@ namespace AmadeusW.Mirror.GUI.Weather
                 hourlyForecast.Add(forecast);
             }
             HourlyForecast = hourlyForecast;
+        }
+
+        private void updateAstronomy(string response)
+        {
+            var json = JObject.Parse(response);
+            JToken astronomyRoot;
+            if (!json.TryGetValue("moon_phase", out astronomyRoot))
+            {
+                var tc = new Microsoft.ApplicationInsights.TelemetryClient();
+                var properties = new Dictionary<String, string> { { "response", response } };
+                tc.TrackEvent($"Unexpected response in {nameof(updateAstronomy)}", properties);
+                return;
+            }
+            var rawSunrise = astronomyRoot["sunrise"];
+            var rawSunset = astronomyRoot["sunset"];
+            // Date doesn't matter, we only care about hours and minutes
+            Sunrise = DateTime.Parse(rawSunrise["hour"]+":"+ rawSunrise["minute"]);
+            Sunset = DateTime.Parse(rawSunset["hour"] + ":" + rawSunset["minute"]);
         }
     }
 }
