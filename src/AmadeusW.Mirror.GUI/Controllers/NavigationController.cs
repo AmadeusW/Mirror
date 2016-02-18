@@ -23,13 +23,23 @@ namespace AmadeusW.Mirror.GUI.Controllers
 
         internal void GlobalKeyDown(CoreWindow sender, KeyEventArgs args)
         {
-            if (args.VirtualKey == Windows.System.VirtualKey.Right)
+            try
             {
-                navigateNext();
+                if (args.VirtualKey == Windows.System.VirtualKey.Right)
+                {
+                    navigateNext();
+                }
+                else if (args.VirtualKey == Windows.System.VirtualKey.Left)
+                {
+                    navigatePrevious();
+                }
             }
-            else if (args.VirtualKey == Windows.System.VirtualKey.Left)
+            catch (Exception ex)
             {
-                navigatePrevious();
+                var tc = new Microsoft.ApplicationInsights.TelemetryClient();
+                var properties = new Dictionary<String, string> { { "Module", "Navigation" } };
+                tc.TrackException(ex, properties);
+                System.Diagnostics.Debugger.Break();
             }
         }
 

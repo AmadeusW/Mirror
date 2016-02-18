@@ -35,6 +35,8 @@ namespace AmadeusW.Mirror.GUI
         {
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
+                Microsoft.ApplicationInsights.WindowsCollectors.PageView |
+                Microsoft.ApplicationInsights.WindowsCollectors.UnhandledException |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -62,6 +64,8 @@ namespace AmadeusW.Mirror.GUI
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            var tc = new Microsoft.ApplicationInsights.TelemetryClient();
+
             var navigation = new NavigationController(launchScreenCallback);
             CoreWindow.GetForCurrentThread().KeyDown += navigation.GlobalKeyDown;
 
@@ -77,7 +81,8 @@ namespace AmadeusW.Mirror.GUI
             }
             catch (Exception ex)
             {
-                // TODO: appInsights
+                var properties = new Dictionary<String, string> { { "Module", "Clock" } };
+                tc.TrackException(ex, properties);
                 System.Diagnostics.Debugger.Break();
             }
 
@@ -89,11 +94,12 @@ namespace AmadeusW.Mirror.GUI
                 (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
                 (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
                 navigation.RegisterView(typeof(WeatherThisWeekView));
-                navigation.RegisterView(typeof(WeatherTodayViewModel));
+                navigation.RegisterView(typeof(WeatherTodayView));
             }
             catch (Exception ex)
             {
-                // TODO: appInsights
+                var properties = new Dictionary<String, string> { { "Module", "Weather" } };
+                tc.TrackException(ex, properties);
                 System.Diagnostics.Debugger.Break();
             }
 
@@ -108,7 +114,8 @@ namespace AmadeusW.Mirror.GUI
             }
             catch (Exception ex)
             {
-                // TODO: appInsights
+                var properties = new Dictionary<String, string> { { "Module", "Transit" } };
+                tc.TrackException(ex, properties);
                 System.Diagnostics.Debugger.Break();
             }
 
@@ -141,6 +148,7 @@ namespace AmadeusW.Mirror.GUI
             }
             // Ensure the current window is active
             Window.Current.Activate();
+            tc.TrackEvent("Smart Mirror has loaded.");
         }
 
         /// <summary>

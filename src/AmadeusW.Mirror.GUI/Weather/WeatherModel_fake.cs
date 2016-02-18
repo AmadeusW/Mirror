@@ -28,6 +28,7 @@ namespace AmadeusW.Mirror.GUI.Weather
             }
             DailyForecast = dailyForecast;
             HourlyForecast = hourlyForecast;
+            Ready = true;
         }
 
         private WeatherDetailsModel getRandomConditions(DateTime time)
