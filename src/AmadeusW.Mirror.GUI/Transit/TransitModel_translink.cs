@@ -49,6 +49,7 @@ namespace AmadeusW.Mirror.GUI.Transit
                         route.apiStopNumber.ToString(),
                         route.apiRouteNumber.ToString(),
                         route.stopName.ToString(),
+                        route.direction.ToString(),
                         route.routeNumber.ToString(),
                         Int32.Parse(route.timeToWalk.ToString())));
                 }

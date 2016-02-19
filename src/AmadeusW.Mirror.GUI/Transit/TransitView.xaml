@@ -20,13 +20,16 @@
                     <!-- Using instances of TransitLineViewModel as binding source -->
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Text="{Binding Path=RouteName}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Path=StopName}" />
+                        <StackPanel Orientation="Vertical" Grid.Column="1" >
+                            <TextBlock Text="{Binding Path=Direction}" />
+                            <TextBlock Text="{Binding Path=StopName}" />
+                        </StackPanel>
 
                         <ListView Grid.Column="2" HorizontalAlignment="Stretch" Margin="10" Height="50"
             ItemsSource="{Binding Path=Arrivals}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Enabled">
@@ -34,7 +37,7 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <!-- Using instances of ArrivalViewModel as binding source -->
-                                    <StackPanel Width="100">
+                                    <StackPanel Width="60">
                                         <TextBlock Text="{Binding Path=WhenINeedToLeave}" />
                                         <TextBlock Text="{Binding Path=ArrivalTime, Converter={StaticResource DateTimeConverter}}" />
                                     </StackPanel>

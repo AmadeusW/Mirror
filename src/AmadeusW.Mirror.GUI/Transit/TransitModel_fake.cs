@@ -20,25 +20,29 @@ namespace AmadeusW.Mirror.GUI.Transit
                 new TransitLine
                 {
                     RouteName = "1",
-                    StopName = "Broadway westbound",
+                    Direction = "Westbound",
+                    StopName = "Broadway",
                     WalkTime = TimeSpan.FromMinutes(5)
                 },
                 new TransitLine
                 {
                     RouteName = "1",
-                    StopName = "Broadway eastbound",
+                    Direction = "Eastbound",
+                    StopName = "Broadway",
                     WalkTime = TimeSpan.FromMinutes(5)
                 },
                 new TransitLine
                 {
                     RouteName = "99",
-                    StopName = "Broadway westbound",
+                    Direction = "Westbound",
+                    StopName = "Broadway",
                     WalkTime = TimeSpan.FromMinutes(5)
                 },
                 new TransitLine
                 {
                     RouteName = "99",
-                    StopName = "Broadway eastbound",
+                    Direction = "Eastbound",
+                    StopName = "Broadway",
                     WalkTime = TimeSpan.FromMinutes(5)
                 },
             };

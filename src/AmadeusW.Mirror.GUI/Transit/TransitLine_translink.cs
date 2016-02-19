@@ -13,10 +13,11 @@ namespace AmadeusW.Mirror.GUI.Transit
         public string ApiStopNumber { get; }
         public string ApiRouteNumber { get; }
 
-        public TransitLine_translink(string apiStopNumber, string apiRouteNumber, string stopName, string routeNumber, int walkTime) : base()
+        public TransitLine_translink(string apiStopNumber, string apiRouteNumber, string stopName, string direction, string routeNumber, int walkTime) : base()
         {
             ApiStopNumber = apiStopNumber;
             ApiRouteNumber = apiRouteNumber;
+            Direction = direction;
             StopName = stopName;
             RouteName = routeNumber;
             WalkTime = TimeSpan.FromMinutes(walkTime);

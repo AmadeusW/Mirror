@@ -28,6 +28,23 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
+        private string direction;
+        public string Direction
+        {
+            get
+            {
+                return direction;
+            }
+            set
+            {
+                if (direction != value)
+                {
+                    direction = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         private string stopName;
         public string StopName
         {
