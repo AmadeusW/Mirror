@@ -152,12 +152,13 @@ namespace AmadeusW.Mirror.GUI.Transit
         private void updateLines()
         {
             var newLines = new ObservableCollection<TransitLineViewModel>();
-            foreach (var line in model.Lines)
+            foreach (var line in model.Lines.OrderBy(l => l.RouteName).OrderBy(l => l.Direction))
             {
                 var newLineViewModel = new TransitLineViewModel()
                 {
                     RouteName = line.RouteName,
                     StopName = line.StopName,
+                    Direction = line.Direction,
                     Arrivals = new ObservableCollection<ArrivalViewModel>(),
                 };
                 updateLine(line, newLineViewModel);
