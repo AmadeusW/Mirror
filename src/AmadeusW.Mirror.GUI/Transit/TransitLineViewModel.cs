@@ -79,12 +79,14 @@ namespace AmadeusW.Mirror.GUI.Transit
             if (otherLine != null)
             {
                 return this.RouteName == otherLine.RouteName
-                    && this.StopName == otherLine.StopName;
+                    && this.StopName == otherLine.StopName
+                    && this.Direction == otherLine.Direction;
             }
             if (transitLine != null)
             {
                 return this.RouteName == transitLine.RouteName
-                    && this.StopName == transitLine.StopName;
+                    && this.StopName == transitLine.StopName
+                    && this.Direction == transitLine.Direction;
             }
             return false;
         }
