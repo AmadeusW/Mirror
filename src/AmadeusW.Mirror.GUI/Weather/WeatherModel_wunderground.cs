@@ -59,9 +59,10 @@ namespace AmadeusW.Mirror.GUI.Weather
                 var requestAstronomy = new HttpRequestMessage(HttpMethod.Get, $"http://api.wunderground.com/api/{_apiToken}/astronomy/q/Canada/Vancouver.json");
                 var taskAstronomy = client.SendAsync(requestAstronomy);
 
-                _rawResponseHourly = await (await taskHourly).Content.ReadAsStringAsync();
-                _rawResponse10Day = await (await task10Day).Content.ReadAsStringAsync();
-                _rawResponseAstronomy = await (await taskAstronomy).Content.ReadAsStringAsync();
+                await Task.WhenAll(taskHourly, task10Day, taskAstronomy);
+                _rawResponseHourly = await taskHourly.Result.Content.ReadAsStringAsync();
+                _rawResponse10Day = await task10Day.Result.Content.ReadAsStringAsync();
+                _rawResponseAstronomy = await taskAstronomy.Result.Content.ReadAsStringAsync();
             }
         }
 
