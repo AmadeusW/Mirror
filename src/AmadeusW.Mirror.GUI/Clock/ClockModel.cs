@@ -27,9 +27,12 @@ namespace AmadeusW.Mirror.GUI.Clock
 
         public override TimeSpan Interval => TimeSpan.FromSeconds(1);
 
+        public Action<bool> NightFallDelegate;
+
         public override async Task Update()
         {
             CurrentTime = DateTime.Now;
+            NightFallDelegate?.Invoke(CurrentTime.Second % 2 == 0);
         }
     }
 }

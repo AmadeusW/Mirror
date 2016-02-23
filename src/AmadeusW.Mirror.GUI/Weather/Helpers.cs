@@ -20,6 +20,7 @@ namespace AmadeusW.Mirror.GUI.Weather
             {
                 Conditions = currentWeather.Conditions,
                 Time = Int32.Parse(currentWeather.Time.ToString("hh")),
+                AmPm = currentWeather.Time.ToString("tt").ToLower(),
                 Temperature = currentWeather.Temperature.Value,
                 Rainfall = currentWeather.Rainfall.Value,
                 Snowfall = currentWeather.Snowfall.Value,
@@ -35,12 +36,20 @@ namespace AmadeusW.Mirror.GUI.Weather
                 dailyForecast.Add(new DailyForecastViewModel()
                 {
                     Conditions = forecast.Conditions,
-                    Date = forecast.Time.ToString("dddd d"),
+                    Date = forecast.Time.ToString("%d"),
+                    DayOfWeek = forecast.Time.ToString("dddd"),
                     TemperatureHigh = forecast.TemperatureHigh.Value,
                     TemperatureLow = forecast.TemperatureLow.Value
                 });
             }
             return dailyForecast;
+        }
+
+        private void test()
+        {
+            var x = DateTime.Now;
+            var z = x.ToString("%d");
+            var zz = x.ToString("tt");
         }
 
         internal static string GetRainForecast(WeatherModel model)
@@ -79,6 +88,7 @@ namespace AmadeusW.Mirror.GUI.Weather
                 {
                     Conditions = forecast.Conditions,
                     Time = Int32.Parse(forecast.Time.ToString("hh")),
+                    AmPm = forecast.Time.ToString("tt").ToLower(),
                     Temperature = forecast.Temperature.Value,
                     Rainfall = forecast.Rainfall.Value,
                     Snowfall = forecast.Snowfall.Value,
