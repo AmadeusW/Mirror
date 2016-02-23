@@ -18,10 +18,10 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=Temperature}" VerticalAlignment="Top"/>
+        <TextBlock Style="{StaticResource extraLargeText}" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=Temperature}" VerticalAlignment="Top"/>
         <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Width="100">
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
+            <TextBlock Style="{StaticResource regularText}" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
+            <TextBlock Style="{StaticResource regularText}" TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
         </StackPanel>
         <ListView x:Name="listView" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Height="200" Margin="10,100,10,0" Grid.Row="1" VerticalAlignment="Top"
             ItemsSource="{Binding Path=Forecast}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Enabled">
@@ -30,11 +30,11 @@
                 <DataTemplate>
                     <!-- Using instances of HourlyForecastViewModel as binding source -->
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Path=Time}" />
-                        <TextBlock Text="{Binding Path=Temperature}" />
-                        <TextBlock Text="{Binding Path=Rainfall}" />
-                        <TextBlock Text="{Binding Path=Snowfall}" />
-                        <TextBlock Text="{Binding Path=Conditions}" />
+                        <TextBlock Style="{StaticResource largeText}" Text="{Binding Path=Time}" />
+                        <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Temperature}" />
+                        <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Rainfall}" />
+                        <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Snowfall}" />
+                        <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Conditions}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -44,10 +44,10 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <TextBlock HorizontalAlignment="Left" Text="{Binding Path=LastUpdated, FallbackValue=LastUpdated}" VerticalAlignment="Top" Grid.Row="2"/>
+        <TextBlock Style="{StaticResource regularText}" HorizontalAlignment="Left" Text="{Binding Path=LastUpdated, FallbackValue=LastUpdated}" VerticalAlignment="Top" Grid.Row="2"/>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Sunrise, FallbackValue=Sunrise}"/>
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Sunset, FallbackValue=Sunset}"/>
+            <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=Sunrise, FallbackValue=Sunrise}"/>
+            <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=Sunset, FallbackValue=Sunset}"/>
         </StackPanel>
     </Grid>
 </Page>

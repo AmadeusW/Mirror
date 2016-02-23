@@ -113,6 +113,7 @@
     <Compile Include="Converters\DateTimeToShortStringConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedBase.cs" />
+    <Compile Include="ThemeAwareFrame.cs" />
     <Compile Include="Transit\ArrivalViewModel.cs" />
     <Compile Include="Transit\IPeriodicallyUpdate.cs" />
     <Compile Include="Transit\TransitLine.cs" />
@@ -164,6 +165,16 @@
     <Page Include="Clock\ClockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LightOverride.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="MirrorStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Transit\TransitView.xaml">
       <SubType>Designer</SubType>

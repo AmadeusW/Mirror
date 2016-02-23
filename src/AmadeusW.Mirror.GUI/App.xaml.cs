@@ -50,6 +50,11 @@ namespace AmadeusW.Mirror.GUI
 
         private List<Type> availableScreens = new List<Type>();
 
+        private void TimeOfDayChangedHandler(bool nightFall)
+        {
+            (Window.Current.Content as ThemeAwareFrame).AppTheme = nightFall ? ElementTheme.Dark : ElementTheme.Light;
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -78,6 +83,7 @@ namespace AmadeusW.Mirror.GUI
                 (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
                 TimerController.RegisterModel(clockModel);
                 navigation.RegisterView(typeof(ClockView));
+                clockModel.NightFallDelegate += TimeOfDayChangedHandler;
             }
             catch (Exception ex)
             {
@@ -126,7 +132,7 @@ namespace AmadeusW.Mirror.GUI
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                rootFrame = new ThemeAwareFrame(ElementTheme.Light);
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
