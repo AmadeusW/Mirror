@@ -6,10 +6,10 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="TextColor" Color="#FFFFDD99" />
+            <SolidColorBrush x:Key="TextColor" Color="#FFEE6600" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="TextColor" Color="#FFDDEEFF" />
+            <SolidColorBrush x:Key="TextColor" Color="#FFEEFFFF" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
