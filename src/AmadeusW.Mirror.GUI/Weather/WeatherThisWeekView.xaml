@@ -30,6 +30,7 @@
                 <DataTemplate>
                     <!-- Using instances of DailyForecastViewModel as binding source -->
                     <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=DayOfWeek}" />
                         <TextBlock Text="{Binding Path=Date}" />
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Path=TemperatureHigh}" />
