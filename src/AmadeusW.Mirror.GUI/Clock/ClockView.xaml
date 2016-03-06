@@ -12,12 +12,12 @@
         <StackPanel VerticalAlignment="Center">
         <TextBlock
             HorizontalAlignment="Center" 
-            Style="{StaticResource extraLargeText}"
+            Style="{StaticResource clockTime}"
             Text="{Binding Path=CurrentTime, FallbackValue=Time will be shown here}" 
             />
         <TextBlock
             HorizontalAlignment="Center" 
-            Style="{StaticResource largeText}"
+            Style="{StaticResource clockDate}"
             Text="{Binding Path=CurrentDate, FallbackValue=Date will be shown here}" 
             />
         </StackPanel>
