@@ -27,12 +27,26 @@ namespace AmadeusW.Mirror.GUI.Clock
 
         public override TimeSpan Interval => TimeSpan.FromSeconds(1);
 
+        Boolean? NightMode;
         public Action<bool> NightFallDelegate;
 
         public override async Task Update()
         {
             CurrentTime = DateTime.Now;
-            NightFallDelegate?.Invoke(CurrentTime.Second % 2 == 0);
+
+            if ((!NightMode.HasValue || NightMode.Value)
+            && (CurrentTime.Hour >= 7 && CurrentTime.Hour < 22))
+            {
+                NightMode = false;
+                NightFallDelegate?.Invoke(false);
+            }
+            else if ((!NightMode.HasValue || !NightMode.Value)
+            && (CurrentTime.Hour < 7 || CurrentTime.Hour >= 22))
+            {
+                NightMode = true;
+                NightFallDelegate?.Invoke(true);
+            }
         }
+
     }
 }
