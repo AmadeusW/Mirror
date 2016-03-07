@@ -56,7 +56,7 @@
                                 <TextBlock Style="{StaticResource largeText}" Text="{Binding Path=Temperature}" />
                                 <TextBlock Margin="1 6 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="°C" />
                             </StackPanel>
-                            <!--
+                            <!-- Uncomment for precipitation forecast:
                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=Rainfall, Converter={StaticResource NonZeroValueToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Rainfall}" />
                                 <TextBlock Margin="3 0 0 0" VerticalAlignment="Bottom" Style="{StaticResource smallText}" Text="mm" />
