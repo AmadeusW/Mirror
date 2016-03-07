@@ -27,11 +27,11 @@ namespace AmadeusW.Mirror.GUI.Controllers
             {
                 if (args.VirtualKey == Windows.System.VirtualKey.Right)
                 {
-                    navigateNext();
+                    NavigateNext();
                 }
                 else if (args.VirtualKey == Windows.System.VirtualKey.Left)
                 {
-                    navigatePrevious();
+                    NavigatePrevious();
                 }
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace AmadeusW.Mirror.GUI.Controllers
             }
         }
 
-        private void navigatePrevious()
+        internal void NavigatePrevious()
         {
             screenId--;
             if (screenId < 0)
@@ -53,7 +53,7 @@ namespace AmadeusW.Mirror.GUI.Controllers
             launchCallback(screens[screenId]);
         }
 
-        private void navigateNext()
+        internal void NavigateNext()
         {
             screenId++;
             if (screenId > maxScreenId)

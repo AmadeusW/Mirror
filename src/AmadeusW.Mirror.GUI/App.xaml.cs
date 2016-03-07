@@ -155,6 +155,16 @@ namespace AmadeusW.Mirror.GUI
             // Ensure the current window is active
             Window.Current.Activate();
             tc.TrackEvent("Smart Mirror has loaded.");
+
+            setupAutoScroll(navigation);
+        }
+
+        private void setupAutoScroll(NavigationController navigation)
+        {
+            var timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(10);
+            timer.Tick += (s, e) => { navigation.NavigateNext(); };
+            timer.Start();
         }
 
         /// <summary>
