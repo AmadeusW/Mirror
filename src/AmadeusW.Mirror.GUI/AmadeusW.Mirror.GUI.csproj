@@ -96,6 +96,7 @@
     </Content>
     <Content Include="Assets\HelveticaLTStd-Bold.otf" />
     <Content Include="Assets\HelveticaLTStd-Roman.otf" />
+    <Content Include="Assets\HelveticaLTStd-BoldCond.otf" />
     <None Include="project.json" />
     <Content Include="settings.json" />
   </ItemGroup>
