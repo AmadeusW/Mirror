@@ -18,7 +18,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <StackPanel Margin="20 20" Orientation="Horizontal" Grid.Column="0" >
-            <StackPanel HorizontalAlignment="Left" Width="250" Orientation="Vertical" Margin="0 24 15 0">
+            <StackPanel HorizontalAlignment="Left" Width="350" Orientation="Vertical" Margin="0 24 15 0">
                 <TextBlock HorizontalAlignment="Right" Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
                 <TextBlock HorizontalAlignment="Right" Style="{StaticResource regularText}" TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
             </StackPanel>
@@ -44,7 +44,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <!-- Using instances of HourlyForecastViewModel as binding source -->
-                        <StackPanel Orientation="Vertical" Width="70" Height="350" Margin="10">
+                        <StackPanel Orientation="Vertical" Width="90" Height="350" Margin="10">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Style="{StaticResource largeNarrowText}" Text="{Binding Path=Time}" />
                                 <TextBlock Margin="4 4 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="{Binding Path=AmPm}" />

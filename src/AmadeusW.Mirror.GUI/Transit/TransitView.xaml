@@ -12,7 +12,7 @@
         <converters:DateTimeToShortStringConverter x:Key="DateTimeConverter" />
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch"
+        <ListView HorizontalAlignment="Stretch" Margin="20" VerticalAlignment="Stretch"
             ItemsSource="{Binding Path=Stops}" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.HorizontalScrollMode="Disabled">
 
             <ListView.ItemTemplate>
@@ -25,13 +25,13 @@
                             <Run Text="{Binding Path=StopName}" />
                         </TextBlock>
 
-                        <ListView HorizontalAlignment="Stretch" Margin="0 10" Height="50"
+                        <ListView HorizontalAlignment="Stretch" Margin="0 20" Height="50"
             ItemsSource="{Binding Path=Arrivals}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Enabled">
 
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <!-- Using instances of ArrivalViewModel as binding source -->
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" Margin="0 0 20 0">
                                         <TextBlock Text="{Binding Path=RouteName}" Style="{StaticResource transitRouteName}" />
                                         <StackPanel Orientation="Vertical" Margin="7 5 0 0">
                                             <TextBlock Style="{StaticResource transitArrivalTime}">
