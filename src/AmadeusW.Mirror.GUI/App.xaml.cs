@@ -94,7 +94,7 @@ namespace AmadeusW.Mirror.GUI
 
             try
             { 
-                var weatherModel = new WeatherModel_fake();
+                var weatherModel = new WeatherModel_wunderground();
                 await weatherModel.Update();
                 TimerController.RegisterModel(weatherModel);
                 (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
