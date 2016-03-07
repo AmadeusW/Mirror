@@ -14,8 +14,10 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <converters:NonZeroValueToVisibilityConverter x:Key="NonZeroValueToVisibilityConverter" />
+    <FontFamily x:Key="Helvetica">/Assets/HelveticaLTStd-Roman.otf#Helvetica LT Std</FontFamily>
+    <FontFamily x:Key="HelveticaBold">/Assets/HelveticaLTStd-Bold.otf#Helvetica LT Std</FontFamily>
     <Style x:Key="regularText" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="Helvetica World" />
+        <Setter Property="FontFamily" Value="{StaticResource Helvetica}" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="Foreground" Value="{ThemeResource TextColor}" />
     </Style>
@@ -32,6 +34,7 @@
         <Setter Property="FontSize" Value="60" />
     </Style>
     <Style x:Key="clockTime" BasedOn="{StaticResource regularText}"  TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource HelveticaBold}" />
         <Setter Property="FontSize" Value="160" />
     </Style>
 </ResourceDictionary>

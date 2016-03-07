@@ -94,6 +94,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\HelveticaLTStd-Bold.otf" />
+    <Content Include="Assets\HelveticaLTStd-Roman.otf" />
     <None Include="project.json" />
     <Content Include="settings.json" />
   </ItemGroup>
