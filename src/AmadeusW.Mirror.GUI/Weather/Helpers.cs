@@ -31,7 +31,7 @@ namespace AmadeusW.Mirror.GUI.Weather
         internal static List<DailyForecastViewModel> GetDailyForecast(WeatherModel model)
         {
             var dailyForecast = new List<DailyForecastViewModel>();
-            foreach (var forecast in model.DailyForecast)
+            foreach (var forecast in model.DailyForecast.Take(6))
             {
                 dailyForecast.Add(new DailyForecastViewModel()
                 {
@@ -82,7 +82,7 @@ namespace AmadeusW.Mirror.GUI.Weather
         internal static List<HourlyForecastViewModel> GetHourlyForecast(WeatherModel model)
         {
             var hourlyForecast = new List<HourlyForecastViewModel>();
-            foreach (var forecast in model.HourlyForecast.Skip(1)) // the first entry is current weather
+            foreach (var forecast in model.HourlyForecast.Skip(1).Where((t, i) => i % 2 == 0)) // the first entry is current weather. Get only every other hour
             {
                 hourlyForecast.Add(new HourlyForecastViewModel()
                 {

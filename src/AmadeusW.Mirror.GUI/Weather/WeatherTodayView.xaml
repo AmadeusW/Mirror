@@ -18,13 +18,13 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <StackPanel Margin="20 20" Orientation="Horizontal" Grid.Column="0" >
-            <StackPanel HorizontalAlignment="Left" Width="300" Orientation="Vertical" Margin="0 0 10 0">
+            <StackPanel HorizontalAlignment="Left" Width="250" Orientation="Vertical" Margin="0 24 15 0">
                 <TextBlock HorizontalAlignment="Right" Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
                 <TextBlock HorizontalAlignment="Right" Style="{StaticResource regularText}" TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0 0 0 0" Style="{StaticResource extraLargeText}" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=-15}" VerticalAlignment="Top"/>
-                <TextBlock Margin="0 0 0 0" Style="{StaticResource regularText}" HorizontalAlignment="Left" Text="°C" VerticalAlignment="Top"/>
+                <TextBlock Margin="4 24 0 0" Style="{StaticResource regularText}" HorizontalAlignment="Left" Text="°C" VerticalAlignment="Top"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="20 20" Grid.Column="1" Orientation="Vertical" >
@@ -39,31 +39,33 @@
         </StackPanel>
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical" Margin="20 0">
-            <ListView x:Name="listView" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Top"
-            ItemsSource="{Binding Path=Forecast}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Enabled">
+            <ListView x:Name="listView" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+            ItemsSource="{Binding Path=Forecast}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <!-- Using instances of HourlyForecastViewModel as binding source -->
-                        <StackPanel Orientation="Vertical" Width="120" Height="250" Margin="10">
+                        <StackPanel Orientation="Vertical" Width="70" Height="350" Margin="10">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource largeText}" Text="{Binding Path=Time}" />
-                                <TextBlock Margin="10 0 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="{Binding Path=AmPm}" />
+                                <TextBlock Style="{StaticResource largeNarrowText}" Text="{Binding Path=Time}" />
+                                <TextBlock Margin="4 4 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="{Binding Path=AmPm}" />
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0 8 0 4">
                                 <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Conditions}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock Style="{StaticResource largeText}" Text="{Binding Path=Temperature}" />
-                                <TextBlock Margin="5 0 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="°C" />
+                                <TextBlock Margin="1 6 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="°C" />
                             </StackPanel>
+                            <!--
                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=Rainfall, Converter={StaticResource NonZeroValueToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Rainfall}" />
-                                <TextBlock Margin="10 0 0 0" VerticalAlignment="Bottom" Style="{StaticResource smallText}" Text="mm rain" />
+                                <TextBlock Margin="3 0 0 0" VerticalAlignment="Bottom" Style="{StaticResource smallText}" Text="mm" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding Path=Snowfall, Converter={StaticResource NonZeroValueToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Snowfall}" />
-                                <TextBlock Margin="10 0 0 0" VerticalAlignment="Bottom" Style="{StaticResource smallText}" Text="cm snow" />
+                                <TextBlock Margin="3 0 0 0" VerticalAlignment="Bottom" Style="{StaticResource smallText}" Text="cm" />
                             </StackPanel>
+                            -->
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -73,10 +75,10 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0 0 10 0" Style="{StaticResource smallText}" Text="Last updated at " />
-                <TextBlock Style="{StaticResource smallText}" HorizontalAlignment="Left" Text="{Binding Path=LastUpdated, FallbackValue=LastUpdated}" VerticalAlignment="Top" Grid.Row="2"/>
-            </StackPanel>
+            <TextBlock Style="{StaticResource smallText}">
+                <Run Text="Last updated at " />
+                <Run Text="{Binding Path=LastUpdated, FallbackValue=LastUpdated}" />
+            </TextBlock>
         </StackPanel>
     </Grid>
 </Page>
