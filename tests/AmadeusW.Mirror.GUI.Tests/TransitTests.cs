@@ -26,7 +26,7 @@ namespace AmadeusW.Mirror.GUI.Tests
 
             tm.AddArrival(nextBus);
 
-            Assert.AreEqual($"{needToLeave} min", tvm.Lines.First().Arrivals.First().WhenINeedToLeave);
+            Assert.AreEqual($"{needToLeave} min", tvm.Stops.First().Arrivals.First().WhenINeedToLeave);
         }
 
         [TestMethod]

@@ -1,26 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace AmadeusW.Mirror.GUI.Transit
 {
-    public class TransitLineViewModel : PropertyChangedBase
+    public class TransitStopViewModel : PropertyChangedBase
     {
-        private string routeName;
-        public string RouteName
-        {
-            get
-            {
-                return routeName;
-            }
-            set
-            {
-                if (routeName != value)
-                {
-                    routeName = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
         private string direction;
         public string Direction
         {
@@ -72,23 +56,11 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
-        public override bool Equals(object obj)
+        public override string ToString() => $"{Direction} {StopName}";
+
+        internal bool ServesLine(TransitLine line)
         {
-            var otherLine = obj as TransitLineViewModel;
-            var transitLine = obj as TransitLine;
-            if (otherLine != null)
-            {
-                return this.RouteName == otherLine.RouteName
-                    && this.StopName == otherLine.StopName
-                    && this.Direction == otherLine.Direction;
-            }
-            if (transitLine != null)
-            {
-                return this.RouteName == transitLine.RouteName
-                    && this.StopName == transitLine.StopName
-                    && this.Direction == transitLine.Direction;
-            }
-            return false;
+            return StopName == line.StopName && Direction == line.Direction;
         }
     }
 }

@@ -45,8 +45,8 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
-        ObservableCollection<TransitLineViewModel> lines;
-        public ObservableCollection<TransitLineViewModel> Lines
+        ObservableCollection<TransitStopViewModel> lines;
+        public ObservableCollection<TransitStopViewModel> Stops
         {
             get
             {
@@ -91,39 +91,39 @@ namespace AmadeusW.Mirror.GUI.Transit
             }
         }
 
-        private void updateLine(TransitLine updatedLine, TransitLineViewModel lineToUpdate = null)
+        private void updateLine(TransitLine updatedLine, TransitStopViewModel stopToUpdate = null)
         {
-            if (lineToUpdate == null)
-                lineToUpdate = Lines.Single(line => line.Equals(updatedLine));
+            if (stopToUpdate == null)
+                stopToUpdate = Stops.Single(stop => stop.Direction == updatedLine.Direction && stop.StopName == updatedLine.StopName);
 
             // Remove arrivals that are not there in the model
             // .ToList() makes a copy of the collection to iterate over
-            foreach (var existingArrival in lineToUpdate.Arrivals.ToList())
+            foreach (var existingArrival in stopToUpdate.Arrivals.Where(a => a.RouteName == updatedLine.RouteName).ToList())
             {
                 if (!updatedLine.Arrivals.Contains(existingArrival.ArrivalTime))
                 {
-                    lineToUpdate.Arrivals.Remove(existingArrival);
+                    stopToUpdate.Arrivals.Remove(existingArrival);
                 }
             }
             // Add arrivals that are not there in the viewmodel
             foreach (var arrivalInModel in updatedLine.Arrivals)
             {
-                if (!lineToUpdate.Arrivals.Any(a => a.ArrivalTime == arrivalInModel))
+                if (!stopToUpdate.Arrivals.Any(a => a.RouteName == updatedLine.RouteName && a.ArrivalTime == arrivalInModel))
                 {
-                    var newArrival = getNewArrival(arrivalInModel, updatedLine.WalkTime);
+                    var newArrival = getNewArrival(updatedLine.RouteName, arrivalInModel, updatedLine.WalkTime);
                     if (newArrival.WhenINeedToLeave < BUS_CUTOFF)
                     {
                         continue;
                     }
-                    var insertionPoint = lineToUpdate.Arrivals.Count(a => a.ArrivalTime < arrivalInModel);
-                    lineToUpdate.Arrivals.Insert(insertionPoint, newArrival);
+                    var insertionPoint = stopToUpdate.Arrivals.Count(a => a.ArrivalTime < arrivalInModel);
+                    stopToUpdate.Arrivals.Insert(insertionPoint, newArrival);
                 }
             }
 
             updateTimestamp();
         }
 
-        private ArrivalViewModel getNewArrival(DateTime arrivalTime, TimeSpan walkTime)
+        private ArrivalViewModel getNewArrival(string routeName, DateTime arrivalTime, TimeSpan walkTime)
         {
             if (arrivalTime + TimeSpan.FromHours(12) < DateTime.Now)
             {
@@ -137,6 +137,7 @@ namespace AmadeusW.Mirror.GUI.Transit
             {
                 ArrivalTime = arrivalTime,
                 WhenINeedToLeave = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes),
+                RouteName = routeName,
             };
         }
 
@@ -151,20 +152,23 @@ namespace AmadeusW.Mirror.GUI.Transit
         /// </summary>
         private void updateLines()
         {
-            var newLines = new ObservableCollection<TransitLineViewModel>();
-            foreach (var line in model.Lines.OrderBy(l => l.RouteName).OrderBy(l => l.Direction))
+            var newStops = new ObservableCollection<TransitStopViewModel>();
+            foreach (var line in model.Lines)
             {
-                var newLineViewModel = new TransitLineViewModel()
+                var matchingStop = newStops.FirstOrDefault(s => s.ServesLine(line));
+                if (matchingStop == null)
                 {
-                    RouteName = line.RouteName,
-                    StopName = line.StopName,
-                    Direction = line.Direction,
-                    Arrivals = new ObservableCollection<ArrivalViewModel>(),
-                };
-                updateLine(line, newLineViewModel);
-                newLines.Add(newLineViewModel);
+                    matchingStop = new TransitStopViewModel()
+                    {
+                        StopName = line.StopName,
+                        Direction = line.Direction,
+                        Arrivals = new ObservableCollection<ArrivalViewModel>(),
+                    };
+                    newStops.Add(matchingStop);
+                }
+                updateLine(line, matchingStop);
             }
-            Lines = newLines;
+            Stops = new ObservableCollection<TransitStopViewModel>(newStops.OrderBy(s => s.Direction).OrderBy(s => s.StopName));
             updateTimestamp();
         }
 
@@ -182,17 +186,17 @@ namespace AmadeusW.Mirror.GUI.Transit
         {
             foreach (var line in model.Lines)
             {
-                var lineInViewModel = Lines.Single(l => l.Equals(line));
+                var matchingStop = Stops.Single(s => s.ServesLine(line));
                 foreach (var arrival in line.Arrivals)
                 {
-                    var arrivalInViewModel = lineInViewModel.Arrivals.FirstOrDefault(l => l.ArrivalTime == arrival);
+                    var arrivalInViewModel = matchingStop.Arrivals.FirstOrDefault(l => l.ArrivalTime == arrival);
                     if (arrivalInViewModel != null)
                     {
                         updateArrival(arrivalInViewModel, line.WalkTime);
                         // Remove obsolete information
                         if (arrivalInViewModel.WhenINeedToLeave < BUS_CUTOFF)
                         {
-                            lineInViewModel.Arrivals.Remove(arrivalInViewModel);
+                            matchingStop.Arrivals.Remove(arrivalInViewModel);
                         }
                     }
                     else

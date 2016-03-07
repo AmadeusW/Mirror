@@ -120,7 +120,7 @@
     <Compile Include="Transit\ArrivalViewModel.cs" />
     <Compile Include="Transit\IPeriodicallyUpdate.cs" />
     <Compile Include="Transit\TransitLine.cs" />
-    <Compile Include="Transit\TransitLineViewModel.cs" />
+    <Compile Include="Transit\TransitStopViewModel.cs" />
     <Compile Include="Transit\TransitModel.cs" />
     <Compile Include="Transit\TransitModel_fake.cs" />
     <Compile Include="Transit\TransitModel_translink.cs" />
