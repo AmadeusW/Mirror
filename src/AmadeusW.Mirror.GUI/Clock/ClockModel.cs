@@ -33,6 +33,13 @@ namespace AmadeusW.Mirror.GUI.Clock
         public override async Task Update()
         {
             CurrentTime = DateTime.Now;
+            changeAppThemeIfNeeded();
+        }
+
+        private void changeAppThemeIfNeeded()
+        {
+            if (NightFallDelegate == null)
+                return;
 
             if ((!NightMode.HasValue || NightMode.Value)
             && (CurrentTime.Hour >= 7 && CurrentTime.Hour < 22))
@@ -47,6 +54,5 @@ namespace AmadeusW.Mirror.GUI.Clock
                 NightFallDelegate?.Invoke(true);
             }
         }
-
     }
 }
