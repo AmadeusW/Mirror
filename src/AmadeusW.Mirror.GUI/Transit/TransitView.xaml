@@ -39,7 +39,6 @@
                                                 <Run Text="{Binding Path=WhenINeedToLeave}" />
                                             </TextBlock>
                                             <TextBlock Style="{StaticResource transitArrivalTime}">
-                                                <Run Text="at " />
                                                 <Run Text="{Binding Path=ArrivalTime, Converter={StaticResource DateTimeConverter}}" />
                                             </TextBlock>
                                         </StackPanel>
