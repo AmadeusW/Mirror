@@ -45,13 +45,6 @@ namespace AmadeusW.Mirror.GUI.Weather
             return dailyForecast;
         }
 
-        private void test()
-        {
-            var x = DateTime.Now;
-            var z = x.ToString("%d");
-            var zz = x.ToString("tt");
-        }
-
         internal static string GetRainForecast(WeatherModel model)
         {
             var currentWeather = model.HourlyForecast.FirstOrDefault();
