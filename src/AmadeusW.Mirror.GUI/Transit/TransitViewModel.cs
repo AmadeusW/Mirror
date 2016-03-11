@@ -130,9 +130,7 @@ namespace AmadeusW.Mirror.GUI.Transit
                 // It's late at night and the bus arrives after midnight.
                 arrivalTime += TimeSpan.FromDays(1);
             }
-            var test = (arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1));
-            var test2 = (arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes;
-            var test3 = (int)((arrivalTime - DateTime.Now - walkTime + TimeSpan.FromSeconds(1)).TotalMinutes);
+
             return new ArrivalViewModel()
             {
                 ArrivalTime = arrivalTime,
