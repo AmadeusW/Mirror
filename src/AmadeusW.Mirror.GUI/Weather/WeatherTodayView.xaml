@@ -18,13 +18,13 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <StackPanel Margin="20 20" Orientation="Horizontal" Grid.Column="0" >
-            <StackPanel HorizontalAlignment="Left" Width="350" Orientation="Vertical" Margin="0 24 15 0">
-                <TextBlock HorizontalAlignment="Right" Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
-                <TextBlock HorizontalAlignment="Right" Style="{StaticResource regularText}" TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
-            </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0 0 0 0" Style="{StaticResource extraLargeText}" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=-15}" VerticalAlignment="Top"/>
                 <TextBlock Margin="4 24 0 0" Style="{StaticResource regularText}" HorizontalAlignment="Left" Text="°C" VerticalAlignment="Top"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="15 24 0 0">
+                <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
+                <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="20 20" Grid.Column="1" Orientation="Vertical" >
