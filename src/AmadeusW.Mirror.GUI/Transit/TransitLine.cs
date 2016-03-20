@@ -95,5 +95,7 @@ namespace AmadeusW.Mirror.GUI.Transit
                 }
             }
         }
+
+        public override string ToString() => $"{RouteName} {Direction} {StopName}";
     }
 }

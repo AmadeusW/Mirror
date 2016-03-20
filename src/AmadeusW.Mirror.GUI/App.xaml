@@ -6,11 +6,18 @@
     xmlns:clock="using:AmadeusW.Mirror.GUI.Clock"
     xmlns:transit="using:AmadeusW.Mirror.GUI.Transit"
     xmlns:weather="using:AmadeusW.Mirror.GUI.Weather"
-    RequestedTheme="Light">
+    RequestedTheme="Dark">
     <Application.Resources>
-        <clock:ClockViewModel x:Key="clockViewModel"/>
-        <transit:TransitViewModel x:Key="transitViewModel"/>
-        <weather:WeatherThisWeekViewModel x:Key="weatherThisWeekViewModel"/>
-        <weather:WeatherTodayViewModel x:Key="weatherTodayViewModel"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MirrorStyles.xaml" />
+                <ResourceDictionary Source="LightOverride.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <clock:ClockViewModel x:Key="clockViewModel"/>
+            <transit:TransitViewModel x:Key="transitViewModel"/>
+            <weather:WeatherThisWeekViewModel x:Key="weatherThisWeekViewModel"/>
+            <weather:WeatherTodayViewModel x:Key="weatherTodayViewModel"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

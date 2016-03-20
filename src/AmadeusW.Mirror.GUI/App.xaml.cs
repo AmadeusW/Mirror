@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -42,13 +43,18 @@ namespace AmadeusW.Mirror.GUI
             this.Suspending += OnSuspending;
         }
 
-        private void launchScreenCallback(Type screenToLaunch)
+        private void launchScreenCallback(Type screenToLaunch, bool navigatingRight)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(screenToLaunch, null);
+            rootFrame.Navigate(screenToLaunch, navigatingRight);
         }
 
         private List<Type> availableScreens = new List<Type>();
+
+        private void TimeOfDayChangedHandler(bool nightFall)
+        {
+            (Window.Current.Content as ThemeAwareFrame).AppTheme = nightFall ? ElementTheme.Dark : ElementTheme.Light;
+        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -74,10 +80,11 @@ namespace AmadeusW.Mirror.GUI
             try
             {
                 var clockModel = new ClockModel();
-                await clockModel.Update();
+                Task.Run(() => clockModel.Update());
                 (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
                 TimerController.RegisterModel(clockModel);
                 navigation.RegisterView(typeof(ClockView));
+                clockModel.NightFallDelegate += TimeOfDayChangedHandler;
             }
             catch (Exception ex)
             {
@@ -89,7 +96,7 @@ namespace AmadeusW.Mirror.GUI
             try
             { 
                 var weatherModel = new WeatherModel_wunderground();
-                await weatherModel.Update();
+                Task.Run(() => weatherModel.Update());
                 TimerController.RegisterModel(weatherModel);
                 (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
                 (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
@@ -106,7 +113,7 @@ namespace AmadeusW.Mirror.GUI
             try
             { 
                 var transitModel = new TransitModel_translink();
-                await transitModel.Update();
+                Task.Run(() => transitModel.Update());
                 TimerController.RegisterModel(transitModel);
                 (Resources["transitViewModel"] as TransitViewModel).Initialize(transitModel);
                 TimerController.RegisterViewModel((Resources["transitViewModel"] as TransitViewModel));
@@ -126,7 +133,7 @@ namespace AmadeusW.Mirror.GUI
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                rootFrame = new ThemeAwareFrame(ElementTheme.Light);
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -149,6 +156,16 @@ namespace AmadeusW.Mirror.GUI
             // Ensure the current window is active
             Window.Current.Activate();
             tc.TrackEvent("Smart Mirror has loaded.");
+
+            setupAutoScroll(navigation);
+        }
+
+        private void setupAutoScroll(NavigationController navigation)
+        {
+            var timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(10);
+            timer.Tick += (s, e) => { navigation.NavigateNext(); };
+            timer.Start();
         }
 
         /// <summary>
@@ -158,6 +175,7 @@ namespace AmadeusW.Mirror.GUI
         /// <param name="e">Details about the navigation failure</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
+            // TODO: Handle gracefully and log
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 

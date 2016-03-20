@@ -1,0 +1,52 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AmadeusW.Mirror.GUI"
+    xmlns:converters="using:AmadeusW.Mirror.GUI.Converters">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="TextColor" Color="#FFEE6600" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="TextColor" Color="#FFEEFFFF" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <converters:NonZeroValueToVisibilityConverter x:Key="NonZeroValueToVisibilityConverter" />
+    <FontFamily x:Key="Helvetica">/Assets/HelveticaLTStd-Roman.otf#Helvetica LT Std</FontFamily>
+    <FontFamily x:Key="HelveticaBold">/Assets/HelveticaLTStd-Bold.otf#Helvetica LT Std</FontFamily>
+    <FontFamily x:Key="HelveticaBoldCondensed">/Assets/HelveticaLTStd-BoldCond.otf#Helvetica LT Std</FontFamily>
+    <Style x:Key="regularText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource Helvetica}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{ThemeResource TextColor}" />
+    </Style>
+    <Style x:Key="smallText" BasedOn="{StaticResource regularText}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="largeText" BasedOn="{StaticResource regularText}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="40" />
+    </Style>
+    <Style x:Key="largeNarrowText" BasedOn="{StaticResource regularText}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="FontFamily" Value="{StaticResource HelveticaBoldCondensed}" />
+    </Style>
+    <Style x:Key="extraLargeText" BasedOn="{StaticResource regularText}"  TargetType="TextBlock">
+        <Setter Property="FontSize" Value="130" />
+    </Style>
+    <Style x:Key="clockDate" BasedOn="{StaticResource regularText}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="60" />
+    </Style>
+    <Style x:Key="clockTime" BasedOn="{StaticResource regularText}"  TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource HelveticaBold}" />
+        <Setter Property="FontSize" Value="160" />
+    </Style>
+    <Style x:Key="transitArrivalTime" BasedOn="{StaticResource regularText}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style x:Key="transitRouteName" BasedOn="{StaticResource regularText}" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource HelveticaBoldCondensed}" />
+        <Setter Property="FontSize" Value="40" />
+    </Style>
+</ResourceDictionary>

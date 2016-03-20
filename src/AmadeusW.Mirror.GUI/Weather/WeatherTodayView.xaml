@@ -5,49 +5,89 @@
     xmlns:local="using:AmadeusW.Mirror.GUI.Weather"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:AmadeusW.Mirror.GUI.Converters"
     mc:Ignorable="d"
     DataContext="{StaticResource weatherTodayViewModel}">
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition x:Name="EntranceAnimation" />
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20" Visibility="{Binding Path=Initialized, Converter={StaticResource BooleanToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="250"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=Temperature}" VerticalAlignment="Top"/>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Width="100">
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
+        <StackPanel Margin="20 20" Orientation="Horizontal" Grid.Column="0" >
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0 0 0 0" Style="{StaticResource extraLargeText}" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=-15}" VerticalAlignment="Top"/>
+                <TextBlock Margin="4 24 0 0" Style="{StaticResource regularText}" HorizontalAlignment="Left" Text="°C" VerticalAlignment="Top"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="15 24 0 0">
+                <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Conditions, FallbackValue=Conditions}"/>
+                <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=RainForecast, FallbackValue=RainForecast}"/>
+            </StackPanel>
         </StackPanel>
-        <ListView x:Name="listView" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Height="200" Margin="10,100,10,0" Grid.Row="1" VerticalAlignment="Top"
-            ItemsSource="{Binding Path=Forecast}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Enabled">
+        <StackPanel Margin="20 20" Grid.Column="1" Orientation="Vertical" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Margin="0 0 10 6" VerticalAlignment="Bottom" Style="{StaticResource regularText}" TextWrapping="Wrap" Text="sunrise"/>
+                <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=Sunrise, FallbackValue=Sunrise}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Margin="0 0 10 6" VerticalAlignment="Bottom" Style="{StaticResource regularText}" TextWrapping="Wrap" Text="sunset"/>
+                <TextBlock Style="{StaticResource largeText}" TextWrapping="Wrap" Text="{Binding Path=Sunset, FallbackValue=Sunset}"/>
+            </StackPanel>
+        </StackPanel>
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <!-- Using instances of HourlyForecastViewModel as binding source -->
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Path=Time}" />
-                        <TextBlock Text="{Binding Path=Temperature}" />
-                        <TextBlock Text="{Binding Path=Rainfall}" />
-                        <TextBlock Text="{Binding Path=Snowfall}" />
-                        <TextBlock Text="{Binding Path=Conditions}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
-        <TextBlock HorizontalAlignment="Left" Text="{Binding Path=LastUpdated, FallbackValue=LastUpdated}" VerticalAlignment="Top" Grid.Row="2"/>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical">
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Sunrise, FallbackValue=Sunrise}"/>
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Sunset, FallbackValue=Sunset}"/>
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Orientation="Vertical" Margin="20 0">
+            <ListView x:Name="listView" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+            ItemsSource="{Binding Path=Forecast}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.HorizontalScrollMode="Disabled">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Using instances of HourlyForecastViewModel as binding source -->
+                        <StackPanel Orientation="Vertical" Width="90" Height="350" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource largeNarrowText}" Text="{Binding Path=Time}" />
+                                <TextBlock Margin="4 4 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="{Binding Path=AmPm}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0 8 0 4">
+                                <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Conditions}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Style="{StaticResource largeText}" Text="{Binding Path=Temperature}" />
+                                <TextBlock Margin="1 6 0 0" VerticalAlignment="Top" Style="{StaticResource smallText}" Text="°C" />
+                            </StackPanel>
+                            <!-- Uncomment for precipitation forecast:
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=Rainfall, Converter={StaticResource NonZeroValueToVisibilityConverter}}">
+                                <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Rainfall}" />
+                                <TextBlock Margin="3 0 0 0" VerticalAlignment="Bottom" Style="{StaticResource smallText}" Text="mm" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding Path=Snowfall, Converter={StaticResource NonZeroValueToVisibilityConverter}}">
+                                <TextBlock Style="{StaticResource regularText}" Text="{Binding Path=Snowfall}" />
+                                <TextBlock Margin="3 0 0 0" VerticalAlignment="Bottom" Style="{StaticResource smallText}" Text="cm" />
+                            </StackPanel>
+                            -->
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <TextBlock Style="{StaticResource smallText}">
+                <Run Text="Last updated at " />
+                <Run Text="{Binding Path=LastUpdated, FallbackValue=LastUpdated}" />
+            </TextBlock>
         </StackPanel>
     </Grid>
 </Page>

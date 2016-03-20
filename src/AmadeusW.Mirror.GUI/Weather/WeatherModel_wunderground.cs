@@ -27,6 +27,10 @@ namespace AmadeusW.Mirror.GUI.Weather
         {
             if (SettingsController.Settings != null)
             {
+                if (SettingsController.Settings.WundergroundApi == null)
+                {
+                    throw new InvalidOperationException($"{nameof(WeatherModel_wunderground)} requires \"WundergroundApi\" entry in settings.json");
+                }
                 _apiToken = SettingsController.Settings.WundergroundApi.ToString();
             }
             DailyForecast = new List<WeatherDetailsModel>();

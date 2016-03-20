@@ -10,11 +10,11 @@ namespace AmadeusW.Mirror.GUI.Controllers
     internal class NavigationController
     {
         private List<Type> screens { get; set; }
-        private Action<Type> launchCallback;
+        private Action<Type, bool> launchCallback;
         int screenId;
         int maxScreenId;
 
-        public NavigationController(Action<Type> launchScreenCallback)
+        public NavigationController(Action<Type, bool> launchScreenCallback)
         {
             screens = new List<Type>();
             screenId = 0;
@@ -27,11 +27,11 @@ namespace AmadeusW.Mirror.GUI.Controllers
             {
                 if (args.VirtualKey == Windows.System.VirtualKey.Right)
                 {
-                    navigateNext();
+                    NavigateNext();
                 }
                 else if (args.VirtualKey == Windows.System.VirtualKey.Left)
                 {
-                    navigatePrevious();
+                    NavigatePrevious();
                 }
             }
             catch (Exception ex)
@@ -43,24 +43,24 @@ namespace AmadeusW.Mirror.GUI.Controllers
             }
         }
 
-        private void navigatePrevious()
+        internal void NavigatePrevious()
         {
             screenId--;
             if (screenId < 0)
             {
                 screenId = maxScreenId;
             }
-            launchCallback(screens[screenId]);
+            launchCallback(screens[screenId], false);
         }
 
-        private void navigateNext()
+        internal void NavigateNext()
         {
             screenId++;
             if (screenId > maxScreenId)
             {
                 screenId = 0;
             }
-            launchCallback(screens[screenId]);
+            launchCallback(screens[screenId], true);
         }
 
         internal void RegisterView(Type viewType)

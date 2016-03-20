@@ -19,6 +19,9 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>AmadeusW.Mirror.GUI_TemporaryKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>3A901C872D836421574E83139A89B7D745D6A758</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -94,6 +97,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\HelveticaLTStd-Bold.otf" />
+    <Content Include="Assets\HelveticaLTStd-Roman.otf" />
+    <Content Include="Assets\HelveticaLTStd-BoldCond.otf" />
     <None Include="project.json" />
     <Content Include="settings.json" />
   </ItemGroup>
@@ -110,13 +116,16 @@
     <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TimerController.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeToShortStringConverter.cs" />
+    <Compile Include="Converters\NonZeroValueToVisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedBase.cs" />
+    <Compile Include="ThemeAwareFrame.cs" />
     <Compile Include="Transit\ArrivalViewModel.cs" />
     <Compile Include="Transit\IPeriodicallyUpdate.cs" />
     <Compile Include="Transit\TransitLine.cs" />
-    <Compile Include="Transit\TransitLineViewModel.cs" />
+    <Compile Include="Transit\TransitStopViewModel.cs" />
     <Compile Include="Transit\TransitModel.cs" />
     <Compile Include="Transit\TransitModel_fake.cs" />
     <Compile Include="Transit\TransitModel_translink.cs" />
@@ -164,6 +173,16 @@
     <Page Include="Clock\ClockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LightOverride.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="MirrorStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Transit\TransitView.xaml">
       <SubType>Designer</SubType>
