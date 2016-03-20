@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -79,7 +80,7 @@ namespace AmadeusW.Mirror.GUI
             try
             {
                 var clockModel = new ClockModel();
-                await clockModel.Update();
+                Task.Run(() => clockModel.Update());
                 (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
                 TimerController.RegisterModel(clockModel);
                 navigation.RegisterView(typeof(ClockView));
@@ -95,7 +96,7 @@ namespace AmadeusW.Mirror.GUI
             try
             { 
                 var weatherModel = new WeatherModel_wunderground();
-                await weatherModel.Update();
+                Task.Run(() => weatherModel.Update());
                 TimerController.RegisterModel(weatherModel);
                 (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
                 (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
@@ -112,7 +113,7 @@ namespace AmadeusW.Mirror.GUI
             try
             { 
                 var transitModel = new TransitModel_translink();
-                await transitModel.Update();
+                Task.Run(() => transitModel.Update());
                 TimerController.RegisterModel(transitModel);
                 (Resources["transitViewModel"] as TransitViewModel).Initialize(transitModel);
                 TimerController.RegisterViewModel((Resources["transitViewModel"] as TransitViewModel));

@@ -63,7 +63,6 @@ namespace AmadeusW.Mirror.GUI.Transit
 
         public override async Task Update()
         {
-
             foreach (var line in Lines)
             {
                 var translinkLine = line as TransitLine_translink;
