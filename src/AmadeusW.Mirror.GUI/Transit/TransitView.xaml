@@ -38,9 +38,9 @@
                                     <!-- Using instances of ArrivalViewModel as binding source -->
                                     <StackPanel Orientation="Horizontal" Margin="0 0 20 0">
                                         <TextBlock Text="{Binding Path=RouteName}" Style="{StaticResource transitRouteName}" />
-                                        <StackPanel Orientation="Vertical" Margin="7 5 0 0">
+                                        <StackPanel Orientation="Vertical" Margin="9 5 0 0">
                                             <TextBlock Style="{StaticResource transitArrivalTime}">
-                                                <Run Text="in " />
+                                                <Run Text="in" />
                                                 <Run Text="{Binding Path=WhenINeedToLeave}" />
                                             </TextBlock>
                                             <TextBlock Style="{StaticResource transitArrivalTime}">
