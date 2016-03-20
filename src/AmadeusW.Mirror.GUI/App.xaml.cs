@@ -42,10 +42,10 @@ namespace AmadeusW.Mirror.GUI
             this.Suspending += OnSuspending;
         }
 
-        private void launchScreenCallback(Type screenToLaunch)
+        private void launchScreenCallback(Type screenToLaunch, bool navigatingRight)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(screenToLaunch, null);
+            rootFrame.Navigate(screenToLaunch, navigatingRight);
         }
 
         private List<Type> availableScreens = new List<Type>();
@@ -174,6 +174,7 @@ namespace AmadeusW.Mirror.GUI
         /// <param name="e">Details about the navigation failure</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
+            // TODO: Handle gracefully and log
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 

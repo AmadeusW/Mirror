@@ -7,6 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{StaticResource weatherThisWeekViewModel}">
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition x:Name="EntranceAnimation" />
+        </TransitionCollection>
+    </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
         <Grid.ColumnDefinitions>

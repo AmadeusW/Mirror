@@ -10,11 +10,11 @@ namespace AmadeusW.Mirror.GUI.Controllers
     internal class NavigationController
     {
         private List<Type> screens { get; set; }
-        private Action<Type> launchCallback;
+        private Action<Type, bool> launchCallback;
         int screenId;
         int maxScreenId;
 
-        public NavigationController(Action<Type> launchScreenCallback)
+        public NavigationController(Action<Type, bool> launchScreenCallback)
         {
             screens = new List<Type>();
             screenId = 0;
@@ -50,7 +50,7 @@ namespace AmadeusW.Mirror.GUI.Controllers
             {
                 screenId = maxScreenId;
             }
-            launchCallback(screens[screenId]);
+            launchCallback(screens[screenId], false);
         }
 
         internal void NavigateNext()
@@ -60,7 +60,7 @@ namespace AmadeusW.Mirror.GUI.Controllers
             {
                 screenId = 0;
             }
-            launchCallback(screens[screenId]);
+            launchCallback(screens[screenId], true);
         }
 
         internal void RegisterView(Type viewType)

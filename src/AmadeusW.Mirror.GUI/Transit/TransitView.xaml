@@ -11,6 +11,11 @@
     <Page.Resources>
         <converters:DateTimeToShortStringConverter x:Key="DateTimeConverter" />
     </Page.Resources>
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition x:Name="EntranceAnimation" />
+        </TransitionCollection>
+    </Page.Transitions>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView HorizontalAlignment="Stretch" Margin="20" VerticalAlignment="Stretch"
             ItemsSource="{Binding Path=Stops}" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.HorizontalScrollMode="Disabled">
