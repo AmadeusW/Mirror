@@ -116,6 +116,7 @@
     <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TimerController.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\DateTimeToShortStringConverter.cs" />
     <Compile Include="Converters\NonZeroValueToVisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
