@@ -2,7 +2,6 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-
 namespace AmadeusW.Mirror.GUI.Converters
 {
     class NonZeroValueToVisibilityConverter : IValueConverter

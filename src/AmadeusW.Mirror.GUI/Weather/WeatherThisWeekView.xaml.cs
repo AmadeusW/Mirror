@@ -26,5 +26,21 @@ namespace AmadeusW.Mirror.GUI.Weather
         {
             this.InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (!(e.Parameter is bool))
+                return;
+            bool navigatingRight = (bool)e.Parameter;
+            EntranceAnimation.FromHorizontalOffset = navigatingRight ? 300 : -300;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (!(e.Parameter is bool))
+                return;
+            bool navigatingRight = (bool)e.Parameter;
+            EntranceAnimation.FromHorizontalOffset = navigatingRight ? -300 : 300;
+        }
     }
 }

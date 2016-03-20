@@ -5,10 +5,19 @@
     xmlns:local="using:AmadeusW.Mirror.GUI.Weather"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:AmadeusW.Mirror.GUI.Converters"
     mc:Ignorable="d"
     DataContext="{StaticResource weatherTodayViewModel}">
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition x:Name="EntranceAnimation" />
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20" Visibility="{Binding Path=Initialized, Converter={StaticResource BooleanToVisibilityConverter}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="200"/>
