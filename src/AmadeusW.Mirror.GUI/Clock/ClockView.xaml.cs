@@ -27,7 +27,7 @@ namespace AmadeusW.Mirror.GUI.Clock
             this.InitializeComponent();
         }
 
-        private void Proximity_OnMeasurement(int measurement1, int measurement2)
+        private void Proximity_OnMeasurement(int measurement1, int measurement2, ref bool shouldDebounce)
         {
             Measurement1.Text = measurement1.ToString();
             Measurement2.Text = measurement2.ToString();
