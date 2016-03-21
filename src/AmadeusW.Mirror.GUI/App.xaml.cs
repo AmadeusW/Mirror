@@ -72,17 +72,25 @@ namespace AmadeusW.Mirror.GUI
 #endif
             var tc = new Microsoft.ApplicationInsights.TelemetryClient();
 
+            await SettingsController.LoadSettings();
             var navigation = new NavigationController(launchScreenCallback);
             CoreWindow.GetForCurrentThread().KeyDown += navigation.GlobalKeyDown;
-
-            await SettingsController.LoadSettings();
-            await ProximityController.CreateNewAsync();
-            ProximityController.Instance.OnMeasurement += navigation.ProximityMeasurement;
 
             try
             {
                 var clockModel = new ClockModel();
-                Task.Run(() => clockModel.Update());
+                Task.Run(async () => {
+                    try
+                    {
+                        await clockModel.Update();
+                    }
+                    catch (Exception ex)
+                    {
+                        var properties = new Dictionary<String, string> { { "Module", "ClockModel" } };
+                        tc.TrackException(ex, properties);
+                        System.Diagnostics.Debugger.Break();
+                    }
+                });
                 (Resources["clockViewModel"] as ClockViewModel).Initialize(clockModel);
                 TimerController.RegisterModel(clockModel);
                 navigation.RegisterView(typeof(ClockView));
@@ -98,7 +106,18 @@ namespace AmadeusW.Mirror.GUI
             try
             { 
                 var weatherModel = new WeatherModel_wunderground();
-                Task.Run(() => weatherModel.Update());
+                Task.Run(async () => {
+                    try
+                    {
+                        await weatherModel.Update();
+                    }
+                    catch (Exception ex)
+                    {
+                        var properties = new Dictionary<String, string> { { "Module", "WeatherModel" } };
+                        tc.TrackException(ex, properties);
+                        System.Diagnostics.Debugger.Break();
+                    }
+                });
                 TimerController.RegisterModel(weatherModel);
                 (Resources["weatherThisWeekViewModel"] as WeatherThisWeekViewModel).Initialize(weatherModel);
                 (Resources["weatherTodayViewModel"] as WeatherTodayViewModel).Initialize(weatherModel);
@@ -115,7 +134,18 @@ namespace AmadeusW.Mirror.GUI
             try
             { 
                 var transitModel = new TransitModel_translink();
-                Task.Run(() => transitModel.Update());
+                Task.Run(async () => {
+                    try
+                    {
+                        await transitModel.Update();
+                    }
+                    catch (Exception ex)
+                    {
+                        var properties = new Dictionary<String, string> { { "Module", "TransitModel" } };
+                        tc.TrackException(ex, properties);
+                        System.Diagnostics.Debugger.Break();
+                    }
+                });
                 TimerController.RegisterModel(transitModel);
                 (Resources["transitViewModel"] as TransitViewModel).Initialize(transitModel);
                 TimerController.RegisterViewModel((Resources["transitViewModel"] as TransitViewModel));
@@ -157,6 +187,19 @@ namespace AmadeusW.Mirror.GUI
             }
             // Ensure the current window is active
             Window.Current.Activate();
+
+            try
+            {
+                await ProximityController.CreateNewAsync();
+                ProximityController.Instance.OnMeasurement += navigation.ProximityMeasurement;
+            }
+            catch (Exception ex)
+            {
+                var properties = new Dictionary<String, string> { { "Module", "ProximityController" } };
+                tc.TrackException(ex, properties);
+                System.Diagnostics.Debugger.Break();
+            }
+
             tc.TrackEvent("Smart Mirror has loaded.");
         }
 

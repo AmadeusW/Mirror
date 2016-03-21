@@ -77,8 +77,7 @@ namespace AmadeusW.Mirror.GUI.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("InitSpi threw " + ex);
-                return null;
+                throw new InvalidOperationException("InitSpi threw exception.", ex);
             }
             try
             {
@@ -86,8 +85,7 @@ namespace AmadeusW.Mirror.GUI.Controllers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("InitTimer threw " + ex);
-                return null;
+                throw new InvalidOperationException("InitTimer threw exception.", ex);
             }
             Instance = controller;
             return Instance;
