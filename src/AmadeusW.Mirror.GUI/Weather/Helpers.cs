@@ -31,16 +31,19 @@ namespace AmadeusW.Mirror.GUI.Weather
         internal static List<DailyForecastViewModel> GetDailyForecast(WeatherModel model)
         {
             var dailyForecast = new List<DailyForecastViewModel>();
-            foreach (var forecast in model.DailyForecast.Take(6))
+            if (model.DailyForecast.Any())
             {
-                dailyForecast.Add(new DailyForecastViewModel()
+                foreach (var forecast in model.DailyForecast.Take(6))
                 {
-                    Conditions = forecast.Conditions,
-                    Date = forecast.Time.ToString("%d"),
-                    DayOfWeek = forecast.Time.ToString("dddd"),
-                    TemperatureHigh = forecast.TemperatureHigh.Value,
-                    TemperatureLow = forecast.TemperatureLow.Value
-                });
+                    dailyForecast.Add(new DailyForecastViewModel()
+                    {
+                        Conditions = forecast.Conditions,
+                        Date = forecast.Time.ToString("%d"),
+                        DayOfWeek = forecast.Time.ToString("dddd"),
+                        TemperatureHigh = forecast.TemperatureHigh.Value,
+                        TemperatureLow = forecast.TemperatureLow.Value
+                    });
+                }
             }
             return dailyForecast;
         }
@@ -75,17 +78,20 @@ namespace AmadeusW.Mirror.GUI.Weather
         internal static List<HourlyForecastViewModel> GetHourlyForecast(WeatherModel model)
         {
             var hourlyForecast = new List<HourlyForecastViewModel>();
-            foreach (var forecast in model.HourlyForecast.Skip(1).Where((t, i) => i % 2 == 0)) // the first entry is current weather. Get only every other hour
+            if (model.HourlyForecast.Any())
             {
-                hourlyForecast.Add(new HourlyForecastViewModel()
+                foreach (var forecast in model.HourlyForecast.Skip(1).Where((t, i) => i % 2 == 0)) // the first entry is current weather. Get only every other hour
                 {
-                    Conditions = forecast.Conditions,
-                    Time = Int32.Parse(forecast.Time.ToString("hh")),
-                    AmPm = forecast.Time.ToString("tt").ToLower(),
-                    Temperature = forecast.Temperature.Value,
-                    Rainfall = forecast.Rainfall.Value,
-                    Snowfall = forecast.Snowfall.Value,
-                });
+                    hourlyForecast.Add(new HourlyForecastViewModel()
+                    {
+                        Conditions = forecast.Conditions,
+                        Time = Int32.Parse(forecast.Time.ToString("hh")),
+                        AmPm = forecast.Time.ToString("tt").ToLower(),
+                        Temperature = forecast.Temperature.Value,
+                        Rainfall = forecast.Rainfall.Value,
+                        Snowfall = forecast.Snowfall.Value,
+                    });
+                }
             }
             return hourlyForecast;
         }

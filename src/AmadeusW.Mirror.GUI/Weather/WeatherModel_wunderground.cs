@@ -85,8 +85,6 @@ namespace AmadeusW.Mirror.GUI.Weather
             var dailyForecast = new List<WeatherDetailsModel>();
             foreach (var daily in allDaily.Take(10))
             {
-                var rawEpoch = Int64.Parse(daily["date"]["epoch"].ToString());
-                var epoch = DateTimeOffset.FromUnixTimeSeconds(rawEpoch);
                 var forecast = new WeatherDetailsModel()
                 {
                     Conditions = daily["conditions"].ToString(),
@@ -94,7 +92,7 @@ namespace AmadeusW.Mirror.GUI.Weather
                     TemperatureLow = Int32.Parse(daily["low"]["celsius"].ToString()),
                     Rainfall = Int32.Parse(daily["qpf_allday"]["mm"].ToString()),
                     Snowfall = Int32.Parse(daily["snow_allday"]["cm"].ToString()),
-                    Time = epoch.DateTime,
+                    Time = getDateTimeFromDate(daily["date"])
                 };
                 dailyForecast.Add(forecast);
             }
@@ -115,19 +113,36 @@ namespace AmadeusW.Mirror.GUI.Weather
             var hourlyForecast = new List<WeatherDetailsModel>();
             foreach (var hourly in allHourly.Take(24))
             {
-                var rawEpoch = Int64.Parse(hourly["FCTTIME"]["epoch"].ToString());
-                var epoch = DateTimeOffset.FromUnixTimeSeconds(rawEpoch);
                 var forecast = new WeatherDetailsModel()
                 {
                     Conditions = hourly["condition"].ToString(),
                     Temperature = Int32.Parse(hourly["temp"]["metric"].ToString()),
                     Rainfall = Int32.Parse(hourly["qpf"]["metric"].ToString()),
                     Snowfall = Int32.Parse(hourly["snow"]["metric"].ToString()),
-                    Time = epoch.DateTime,
+                    Time = getDateTimeFromFCTTIME(hourly["FCTTIME"])
                 };
                 hourlyForecast.Add(forecast);
             }
             HourlyForecast = hourlyForecast;
+        }
+
+        // I swear WUNDERGROUND is the worst weather API ever. The can't even agree on the time format.
+
+        private DateTime getDateTimeFromFCTTIME(JToken rawTime)
+        {
+            var dataString = $"{rawTime["hour_padded"]}:{rawTime["min"]} {rawTime["year"]}.{rawTime["mon_padded"]}.{rawTime["mday_padded"]}";
+            var formatString = "HH:mm yyyy.MM.dd";
+            return DateTime.ParseExact(dataString, formatString, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        private DateTime getDateTimeFromDate(JToken rawDate)
+        {
+            var fixedHour = rawDate["hour"].ToString().PadLeft(2, '0');
+            var fixedMonth = rawDate["month"].ToString().PadLeft(2, '0');
+            var fixedDay = rawDate["day"].ToString().PadLeft(2, '0');
+            var dataString = $"{fixedHour}:{rawDate["min"]} {rawDate["year"]}.{fixedMonth}.{fixedDay}";
+            var formatString = "HH:mm yyyy.MM.dd";
+            return DateTime.ParseExact(dataString, formatString, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         private void updateAstronomy(string response)
