@@ -76,6 +76,7 @@ namespace AmadeusW.Mirror.GUI
             CoreWindow.GetForCurrentThread().KeyDown += navigation.GlobalKeyDown;
 
             await SettingsController.LoadSettings();
+            await ProximityController.CreateNewAsync();
 
             try
             {
