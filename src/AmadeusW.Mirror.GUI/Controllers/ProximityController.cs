@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 
 namespace AmadeusW.Mirror.GUI.Controllers
 {
-    public delegate void MeasurementEventHandler(int measurement1, int measurement2);
+    public delegate void MeasurementEventHandler(int measurement1, int measurement2, ref bool shouldDebounce);
 
     public class ProximityController : IDisposable
     {
@@ -37,7 +37,14 @@ namespace AmadeusW.Mirror.GUI.Controllers
         byte[] range2Query = new byte[3] { 0x01, 0x90, 0 };
 
         TimeSpan interval = TimeSpan.FromSeconds(1);
+        /// <summary>
+        /// Responsible for falling back to slow polling after a period of inactivity
+        /// </summary>
         private int inactivityCounter;
+        /// <summary>
+        /// Responsible for not issuing OnMeasurement event for a short while, to provide debouncing.
+        /// </summary>
+        private int skipCount;
 
         #endregion
 
@@ -135,7 +142,7 @@ namespace AmadeusW.Mirror.GUI.Controllers
             ADC.TransferFullDuplex(range2Query, responseBuffer);
             var result2 = ConvertToInt(responseBuffer);
 
-            if (result1 > 400 || result2 > 400)
+            if (result1 > 280 || result2 > 280)
             {
                 Interval = TimeSpan.FromMilliseconds(50);
                 inactivityCounter = 0;
@@ -150,12 +157,23 @@ namespace AmadeusW.Mirror.GUI.Controllers
             }
 
             average1 = (result1 * 2 + average1 + oldAverage1) / 4;
-            average2 = (result1 * 2 + average2 + oldAverage2) / 4;
+            average2 = (result2 * 2 + average2 + oldAverage2) / 4;
 
             oldAverage1 = average1;
             oldAverage2 = average2;
 
-            OnMeasurement?.Invoke(average1, average2);
+            if (skipCount > 0)
+            {
+                skipCount--;
+                return;
+            }
+            bool shouldDebounce = false;
+            OnMeasurement?.Invoke(average1, average2, ref shouldDebounce);
+
+            if (shouldDebounce)
+            {
+                skipCount = 20;
+            }
         }
 
         /// <summary>

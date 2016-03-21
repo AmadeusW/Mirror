@@ -77,6 +77,7 @@ namespace AmadeusW.Mirror.GUI
 
             await SettingsController.LoadSettings();
             await ProximityController.CreateNewAsync();
+            ProximityController.Instance.OnMeasurement += navigation.ProximityMeasurement;
 
             try
             {
@@ -157,8 +158,6 @@ namespace AmadeusW.Mirror.GUI
             // Ensure the current window is active
             Window.Current.Activate();
             tc.TrackEvent("Smart Mirror has loaded.");
-
-            setupAutoScroll(navigation);
         }
 
         private void setupAutoScroll(NavigationController navigation)
