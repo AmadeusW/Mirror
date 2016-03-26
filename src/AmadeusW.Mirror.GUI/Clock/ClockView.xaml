@@ -20,34 +20,11 @@
             Style="{StaticResource clockTime}"
             Text="{Binding Path=CurrentTime, FallbackValue=Time will be shown here}" 
             />
-        <TextBlock
+            <TextBlock
             HorizontalAlignment="Center" 
             Style="{StaticResource clockDate}"
             Text="{Binding Path=CurrentDate, FallbackValue=Date will be shown here}" 
             />
-            <StackPanel Orientation="Horizontal" Margin="50">
-                <TextBlock
-                    HorizontalAlignment="Center" 
-                    Style="{StaticResource regularText}"
-                    x:Name="Measurement1" 
-                    Text="Measurement 1"
-                    Margin="50"
-                    />
-                <TextBlock
-                    HorizontalAlignment="Center" 
-                    Style="{StaticResource regularText}"
-                    x:Name="Interval" 
-                    Text="Interval"
-                    Margin="50"
-                    />
-                <TextBlock
-                    HorizontalAlignment="Center" 
-                    Style="{StaticResource regularText}"
-                    x:Name="Measurement2" 
-                    Text="Measurement 2"
-                    Margin="50"
-                    />
-            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
