@@ -13,11 +13,8 @@
             <EntranceThemeTransition x:Name="EntranceAnimation" />
         </TransitionCollection>
     </Page.Transitions>
-    <Page.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20" Visibility="{Binding Path=Initialized, Converter={StaticResource BooleanToVisibilityConverter}}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="200"/>

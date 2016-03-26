@@ -13,11 +13,8 @@
             <EntranceThemeTransition x:Name="EntranceAnimation" />
         </TransitionCollection>
     </Page.Transitions>
-    <Page.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20" Visibility="{Binding Path=Initialized, Converter={StaticResource BooleanToVisibilityConverter}}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
@@ -27,7 +24,7 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="20 20" Orientation="Horizontal" Grid.Row="0" >
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0 0 0 0" Style="{StaticResource extraLargeText}" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=-15}" VerticalAlignment="Top"/>
+                <TextBlock Margin="0 0 0 0" Style="{StaticResource extraLargeText}" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=CurrentWeather.Temperature, FallbackValue=-}" VerticalAlignment="Top"/>
                 <TextBlock Margin="4 24 0 0" Style="{StaticResource regularText}" HorizontalAlignment="Left" Text="°C" VerticalAlignment="Top"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Orientation="Vertical" Margin="15 24 0 0">
