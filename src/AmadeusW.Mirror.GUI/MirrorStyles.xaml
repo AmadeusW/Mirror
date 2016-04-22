@@ -14,9 +14,9 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <converters:NonZeroValueToVisibilityConverter x:Key="NonZeroValueToVisibilityConverter" />
-    <FontFamily x:Key="Helvetica">/Assets/HelveticaLTStd-Roman.otf#Helvetica LT Std</FontFamily>
-    <FontFamily x:Key="HelveticaBold">/Assets/HelveticaLTStd-Bold.otf#Helvetica LT Std</FontFamily>
-    <FontFamily x:Key="HelveticaBoldCondensed">/Assets/HelveticaLTStd-BoldCond.otf#Helvetica LT Std</FontFamily>
+    <FontFamily x:Key="Helvetica">/Assets/Fonts/HelveticaLTStd-Roman.otf#Helvetica LT Std</FontFamily>
+    <FontFamily x:Key="HelveticaBold">/Assets/Fonts/HelveticaLTStd-Bold.otf#Helvetica LT Std</FontFamily>
+    <FontFamily x:Key="HelveticaBoldCondensed">/Assets/Fonts/HelveticaLTStd-BoldCond.otf#Helvetica LT Std</FontFamily>
     <Style x:Key="regularText" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource Helvetica}" />
         <Setter Property="FontSize" Value="20" />
