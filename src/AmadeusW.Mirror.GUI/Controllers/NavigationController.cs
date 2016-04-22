@@ -71,6 +71,11 @@ namespace AmadeusW.Mirror.GUI.Controllers
 
         internal void ProximityMeasurement(int measurement1, int measurement2, int average1, int average2, ref bool shouldDebounce)
         {
+            // If both hands are at similar positions, don't attempt navigation
+            if (Math.Abs(measurement1 - measurement2) < 100)
+            {
+                return;
+            }
             if (measurement1 > 410)
             {
                 NavigatePrevious();
