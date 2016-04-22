@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 
 namespace AmadeusW.Mirror.GUI.Controllers
 {
-    public delegate void MeasurementEventHandler(int measurement1, int measurement2, ref bool shouldDebounce);
+    public delegate void MeasurementEventHandler(int measurement1, int measurement2, int average1, int average2, ref bool shouldDebounce);
 
     public class ProximityController : IDisposable
     {
@@ -160,14 +160,16 @@ namespace AmadeusW.Mirror.GUI.Controllers
             oldAverage1 = average1;
             oldAverage2 = average2;
 
+            // If we were asked to debounce, don't invoke another event
             if (skipCount > 0)
             {
                 skipCount--;
                 return;
             }
             bool shouldDebounce = false;
-            OnMeasurement?.Invoke(average1, average2, ref shouldDebounce);
+            OnMeasurement?.Invoke(result1, result2, average1, average2, ref shouldDebounce);
 
+            // If we are asked to debounce, don't invoked another event for 20 cycles
             if (shouldDebounce)
             {
                 skipCount = 20;

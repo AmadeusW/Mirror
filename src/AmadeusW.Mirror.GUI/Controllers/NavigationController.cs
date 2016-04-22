@@ -69,15 +69,27 @@ namespace AmadeusW.Mirror.GUI.Controllers
             maxScreenId = screens.Count - 1;
         }
 
-        internal void ProximityMeasurement(int measurement1, int measurement2, ref bool shouldDebounce)
+        internal void ProximityMeasurement(int measurement1, int measurement2, int average1, int average2, ref bool shouldDebounce)
         {
-            if (measurement1 > 440)
+            if (measurement1 > 410)
             {
                 NavigatePrevious();
                 shouldDebounce = true;
                 return;
             }
-            else if (measurement2 > 440)
+            else if (measurement2 > 410)
+            {
+                NavigateNext();
+                shouldDebounce = true;
+                return;
+            }
+            if (average1 > 320)
+            {
+                NavigatePrevious();
+                shouldDebounce = true;
+                return;
+            }
+            else if (average2 > 320)
             {
                 NavigateNext();
                 shouldDebounce = true;
