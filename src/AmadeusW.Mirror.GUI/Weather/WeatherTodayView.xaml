@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:AmadeusW.Mirror.GUI.Converters"
     mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
     DataContext="{StaticResource weatherTodayViewModel}">
     <Page.Transitions>
         <TransitionCollection>
