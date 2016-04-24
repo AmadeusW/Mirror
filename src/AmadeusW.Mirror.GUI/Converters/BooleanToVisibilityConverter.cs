@@ -13,7 +13,7 @@ namespace AmadeusW.Mirror.GUI.Converters
 
             var boolValue = (bool)value;
 
-            if (parameter.ToString() == "reverse")
+            if (parameter?.ToString() == "reverse")
                 boolValue = !boolValue;
 
             return boolValue ? Visibility.Visible : Visibility.Collapsed;
